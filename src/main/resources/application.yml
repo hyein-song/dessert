@@ -9,6 +9,7 @@ spring:
     hibernate:
       ddl-auto: create
     show-sql: true
+    generate-ddl: true
 
 
 server:
