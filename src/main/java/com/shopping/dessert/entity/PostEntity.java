@@ -1,5 +1,6 @@
 package com.shopping.dessert.entity;
 
+import com.shopping.dessert.entity.value.PostCategory;
 import com.sun.istack.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -25,8 +26,8 @@ public class PostEntity {
 
     private String content;
 
-    //TODO: enum
-    private String category;
+    @Enumerated(EnumType.STRING)
+    private PostCategory category;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @NotNull

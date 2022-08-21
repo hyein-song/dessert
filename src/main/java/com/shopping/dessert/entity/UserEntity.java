@@ -1,11 +1,12 @@
 package com.shopping.dessert.entity;
 
+import com.shopping.dessert.entity.value.UserGender;
+import com.shopping.dessert.entity.value.UserRole;
 import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.LinkedHashSet;
-import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -30,16 +31,16 @@ public class UserEntity {
 
     private String address;
 
-    // TODO: enum
-    private String gender;
+    @Enumerated(EnumType.STRING)
+    private UserGender gender;
 
     @Builder.Default
     private Long point = 0L;
 
     private LocalDateTime joinDateTime;
 
-    // TODO: enum
-    private String role;
+    @Enumerated(EnumType.STRING)
+    private UserRole role;
 
     @Builder.Default
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
