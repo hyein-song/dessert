@@ -3,6 +3,8 @@ package com.shopping.dessert.entity;
 import com.shopping.dessert.entity.value.UserGender;
 import com.shopping.dessert.entity.value.UserRole;
 import lombok.*;
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -14,6 +16,8 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
+@DynamicInsert
+@DynamicUpdate
 public class UserEntity {
 
     @Id
