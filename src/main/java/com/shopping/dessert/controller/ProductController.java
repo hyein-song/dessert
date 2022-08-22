@@ -1,30 +1,31 @@
 package com.shopping.dessert.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-@RestController
+@Controller
 @RequiredArgsConstructor
 @RequestMapping("/products")
 public class ProductController {
 
-    @PostMapping
-    public void addProduct(){
-
-    }
-
-    @GetMapping
-    public void getProductsList(){
-
-    }
-
-    @GetMapping("/{productId}")
-    public void getProductDetail(@PathVariable Long productId){
-
-    }
-
-    @PutMapping("/{productId}")
-    public void updateProduct(@PathVariable Long productId){
-
-    }
+//    @PostMapping
+//    public String addProduct(){
+//
+//    }
+//
+//    @GetMapping
+//    public String getProductsList(){
+//
+//    }
+//
+//    @GetMapping("/{productId}")
+//    public String getProductDetail(@PathVariable Long productId){
+//
+//    }
+//
+//    @PutMapping("/{productId}")
+//    public String updateProduct(@PathVariable Long productId){
+//
+//    }
 }

@@ -1,31 +1,32 @@
 package com.shopping.dessert.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-@RestController
+@Controller
 @RequiredArgsConstructor
 @RequestMapping("/replies")
 public class ReplyController {
 
-    @PostMapping
-    public void addReply(){
-
-    }
-
-    @GetMapping
-    public void getReply(){
-
-    }
-
-    @DeleteMapping("/{replyId}")
-    public void deleteReply(@PathVariable Long replyId){
-
-    }
-
-    @PutMapping("/{replyId}")
-    public void updateReply(@PathVariable Long replyId){
-
-    }
+//    @PostMapping
+//    public String addReply(){
+//
+//    }
+//
+//    @GetMapping
+//    public String getReply(){
+//
+//    }
+//
+//    @DeleteMapping("/{replyId}")
+//    public String deleteReply(@PathVariable Long replyId){
+//
+//    }
+//
+//    @PutMapping("/{replyId}")
+//    public String updateReply(@PathVariable Long replyId){
+//
+//    }
 
 }
