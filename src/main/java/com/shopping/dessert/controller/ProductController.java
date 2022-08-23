@@ -1,7 +1,11 @@
 package com.shopping.dessert.controller;
 
+import com.shopping.dessert.dto.ProductDto;
+import com.shopping.dessert.entity.ProductEntity;
+import com.shopping.dessert.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
@@ -9,10 +13,17 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/products")
 public class ProductController {
 
-//    @PostMapping
-//    public String addProduct(){
-//
-//    }
+    private final ProductService productService;
+
+    @PostMapping
+    public String addProduct(@ModelAttribute ProductDto.Request.ProductAdd productAdRequest, Model model){
+//        ProductDto.Response.ProductDetail savedProduct =  productService.addProduct(productAdRequest);
+//        model.addAttribute("product", savedProduct);
+
+        productService.addProduct(productAdRequest);
+
+        return "home"; // detail 페이지로 넘기기
+    }
 //
 //    @GetMapping
 //    public String getProductsList(){

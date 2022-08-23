@@ -28,12 +28,12 @@ public class ProductEntity {
 
     private String name;
 
-    private Long amount;
+    private Long price;
 
     private String content;
 
     // TODO: Multipart로 image 받기
-    private String image;
+//    private String image;
 
     private Long count;
 
