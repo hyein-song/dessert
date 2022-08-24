@@ -1,7 +1,6 @@
 package com.shopping.dessert.controller;
 
 import com.shopping.dessert.dto.ProductDto;
-import com.shopping.dessert.entity.ProductEntity;
 import com.shopping.dessert.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -16,7 +15,7 @@ public class ProductController {
     private final ProductService productService;
 
     @PostMapping
-    public String addProduct(@ModelAttribute ProductDto.Request.ProductAdd productAdRequest, Model model){
+    public String addProduct(@ModelAttribute ProductDto.Request.Add productAdRequest, Model model){
 //        ProductDto.Response.ProductDetail savedProduct =  productService.addProduct(productAdRequest);
 //        model.addAttribute("product", savedProduct);
 

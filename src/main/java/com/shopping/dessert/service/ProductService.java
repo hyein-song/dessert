@@ -35,7 +35,7 @@ public class ProductService {
 //    }
 
     @Transactional
-    public void addProduct(ProductDto.Request.ProductAdd productAddRequest) {
+    public void addProduct(ProductDto.Request.Add productAddRequest) {
 
         // TODO : image file 추가 필요
         ProductEntity productEntity = ProductEntity

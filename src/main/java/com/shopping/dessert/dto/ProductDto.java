@@ -11,7 +11,7 @@ public class ProductDto {
     public static class Request{
 
         @Data
-        public static class ProductAdd {
+        public static class Add {
 
             private String name;
             private Long price;
@@ -29,7 +29,7 @@ public class ProductDto {
 
         @Data
         @Builder
-        public static class ProductDetail{
+        public static class Detail{
 
             private String name;
             private Long price;
@@ -39,7 +39,7 @@ public class ProductDto {
             private Long count;
             private LocalDateTime productRegTimeDate;
 
-            public static ProductDetail convertToDto(ProductEntity productEntity){
+            public static Detail convertToDto(ProductEntity productEntity){
                 return builder()
                         .name(productEntity.getName())
                         .price(productEntity.getPrice())
