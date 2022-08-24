@@ -1,12 +1,12 @@
 package com.shopping.dessert.entity;
 
-import com.shopping.dessert.entity.value.UserGender;
 import com.shopping.dessert.entity.value.UserRole;
 import lombok.*;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
 import java.time.LocalDateTime;
 import java.util.LinkedHashSet;
 import java.util.Set;
@@ -24,7 +24,7 @@ public class UserEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long userId;
 
-    // TODO: format
+    @Email
     private String email;
 
     private String name;
@@ -34,9 +34,6 @@ public class UserEntity {
     private String phone;
 
     private String address;
-
-    @Enumerated(EnumType.STRING)
-    private UserGender gender;
 
     @Builder.Default
     private Long point = 0L;
