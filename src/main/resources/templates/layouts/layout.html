@@ -3,7 +3,6 @@
 
 <th:block th:replace="/layouts/fragments/head :: headFragment"></th:block>
 <body>
-    <div>
         <th:block th:replace="/layouts/fragments/top :: topFragment"></th:block>
 
         <th:block th:replace="/layouts/fragments/navbar :: navbarFragment"></th:block>
@@ -12,7 +11,8 @@
         <th:block th:replace="/layouts/fragments/footer :: footerFragment"></th:block>
 
         <th:block th:replace="/layouts/fragments/script :: scriptFragment "></th:block>
-    </div>
+
+        <th:block layout:fragment="content-script"></th:block>
 </body>
 
 </html>
