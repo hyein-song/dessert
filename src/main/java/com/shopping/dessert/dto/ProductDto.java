@@ -39,7 +39,7 @@ public class ProductDto {
             private Long count;
             private LocalDateTime productRegTimeDate;
 
-            public static Detail convertToDto(ProductEntity productEntity){
+            public static Detail of(ProductEntity productEntity){
                 return builder()
                         .name(productEntity.getName())
                         .price(productEntity.getPrice())

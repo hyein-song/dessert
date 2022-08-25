@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <th:block th:fragment="navbarFragment">
     <!-- Navbar Start -->
     <div class="container-fluid">
@@ -28,24 +28,25 @@
                     </button>
                     <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
                         <div class="navbar-nav mr-auto py-0">
-                            <a href="index.html" class="nav-item nav-link">Home</a>
-                            <a href="shop.html" class="nav-item nav-link">All</a>
-                            <a href="detail.html" class="nav-item nav-link active">New</a>
-                            <a href="contact.html" class="nav-item nav-link">Best</a>
+                            <a th:href="@{/}" class="nav-item nav-link">Home</a>
+                            <a href="" class="nav-item nav-link">All</a>
+                            <a href="" class="nav-item nav-link active">New</a>
+                            <a href="" class="nav-item nav-link">Best</a>
 
                         </div>
-                        <!-- 로그인 안했을때 -->
+
                         <div class="navbar-nav ml-auto py-0">
-                            <a href="" class="nav-item nav-link">Login</a>
-                            <a href="" class="nav-item nav-link">Register</a>
+                            <!-- 로그인 안했을때 -->
+                            <a th:href="@{/users/login}" class="nav-item nav-link" sec:authorize="!isAuthenticated()">Login</a>
+                            <a th:href="@{/users/register}" class="nav-item nav-link" sec:authorize="!isAuthenticated()">Register</a>
+
+                            <!-- 로그인 했을때 -->
+                            <form th:href="@{/users/logout}" method="post" sec:authorize="isAuthenticated()">
+                                <a th:href="@{/users/myPage}" class="nav-item nav-link">My Page</a>
+                                <button class="nav-item nav-link" type="submit">Logout</button>
+                            </form>
+<!--                            form으로 해야되나?? 그냥 위처럼 a로 하면 안되나 -->
                         </div>
-
-                        <!-- 로그인 했을때 -->
-<!--                        <div class="navbar-nav ml-auto py-0">-->
-<!--                            <a href="" class="nav-item nav-link">My Page</a>-->
-<!--                            <a href="" class="nav-item nav-link">Logout</a>-->
-<!--                        </div>-->
-
                     </div>
                 </nav>
             </div>

@@ -8,43 +8,47 @@
 
 <div layout:fragment="content">
     <!-- Checkout Start -->
-    <div class="container-fluid pt-5 ">
+    <div class="container-fluid pt-5">
         <div class="row px-xl-5">
             <div class="col-lg-8">
-                <div class="mb-4">
+                <div class="mb-4 text-center">
                     <h4 class="font-weight-semi-bold mb-4">개인정보 입력</h4>
-                        <div class="row">
-                            <!--/*@thymesVar id="registerForm" type="com.shopping.dessert.dto.UserDto.Request.Register"*/-->
+                        <div class="text-center">
+                            <!--/*@thymesVar id="registerForm" type="com.shopping.dessert.dto.UserDto.Request.RegisterForm"*/-->
                             <!--/*@thymesVar id="name" type="String"*/-->
                             <form th:action="@{/users/register}" th:object="${registerForm}" method="post">
                                 <div class="col-md-6 form-group">
-                                    <label for="name">이름</label>
-                                    <input id="name" th:feild="*{name}" class="form-control" type="text" placeholder="이름">
+                                    <label th:for="name">이름</label>
+                                    <input id="name" name="name" th:feild="*{name}" th:errorclass="field-error" class="form-control" type="text" placeholder="이름">
+                                    <span class="field-error" th:errors="*{name}">name error</span>
                                 </div>
                                 <div class="col-md-6 form-group">
-                                    <label for="password">비밀번호</label>
-                                    <input id="password" th:feild="*{password}" class="form-control" type="text" placeholder="Doe">
+                                    <label th:for="password">비밀번호</label>
+                                    <input id="password" name="password" th:feild="*{password}" class="form-control" type="text" placeholder="Doe">
+                                    <span th:if="${#fields.hasErrors('password')}" th:errors="*{password}">password error</span>
                                 </div>
                                 <div class="col-md-6 form-group">
-                                    <label>비밀번호 확인</label>
-                                    <input class="form-control" type="text" placeholder="Doe">
+                                    <label th:for="passwordConfirm">비밀번호 확인</label>
+                                    <input id = "passwordConfirm" name="passwordConfirm" th:feild="*{passwordConfirm}" class="form-control" type="text" placeholder="Doe">
+                                    <span th:if="${#fields.hasErrors('passwordConfirm')}" th:errors="*{passwordConfirm}">passwordConfirm error</span>
                                 </div>
                                 <div class="col-md-6 form-group">
-                                    <label>이메일</label>
-                                    <input class="form-control" type="text" placeholder="example@email.com">
+                                    <label th:for="email">이메일</label>
+                                    <input id="email" name="email" th:feild="*{email}" class="form-control" type="text" placeholder="example@email.com">
+                                    <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}">email error</span>
                                 </div>
                                 <div class="col-md-6 form-group">
-                                    <label>핸드폰 번호</label>
-                                    <input class="form-control" type="text" placeholder="+123 456 789">
+                                    <label th:for ="phone">핸드폰 번호</label>
+                                    <input id="phone" name="phone" th:feild="*{phone}" class="form-control" type="text" placeholder="010-1234-5678">
+                                    <span th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}">phone error</span>
                                 </div>
                                 <div class="col-md-6 form-group">
-                                    <label>주소</label>
-                                    <input class="form-control" type="text" placeholder="123 Street">
+                                    <label th:for="address">주소</label>
+                                    <input id="address" name="address" th:feild="*{address}" class="form-control" type="text" placeholder="123 Street">
+                                    <span th:if="${#fields.hasErrors('address')}" th:errors="*{address}">address error</span>
                                 </div>
-                                <button class="btn btn-lg btn-block btn-primary font-weight-bold my-3 py-3 form-control" id="btn_register">가입하기</button>
+                                <button class="btn btn-lg btn-block btn-primary font-weight-bold my-3 py-3 form-control" type="submit">가입하기</button>
                             </form>
-                        </div>
-
                 </div>
             </div>
         </div>
