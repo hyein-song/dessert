@@ -31,10 +31,11 @@ public class UserController {
 
     @PostMapping("/register")
     public String registerForm(@Valid Request.RegisterForm registerForm, BindingResult result, Model model){
-        model.addAttribute("registerForm",registerForm);
+
         userRegisterValidator.validate(registerForm,result);
 
         if (result.hasErrors()) {
+            model.addAttribute("registerForm",registerForm);
             return "register";
         }
 
@@ -42,23 +43,25 @@ public class UserController {
         return "redirect:/";
     }
 
+
     @GetMapping("/login")
     public String login(){
         return "login";
     }
+
 //
 //    @GetMapping("/logout")
 //    public String Logout(){
 //
 //    }
 //
-//    @GetMapping("/myInfo")
-//    public String getUserInfo(){
+//    @GetMapping("/mypage")
+//    public String getUserMyPage(){
 //
 //    }
 //
 //    @PutMapping("/myInfo/update")
-//    public String updateUserInfo(){
+//    public String updateUserMyPage(){
 //
 //    }
 //

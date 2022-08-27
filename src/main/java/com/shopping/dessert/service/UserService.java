@@ -19,18 +19,15 @@ public class UserService {
 
     @Transactional
     public void register(UserDto.Request.RegisterForm registerForm) {
-
-//        validateDuplicatedUser(registerForm);
+        validateDuplicatedUser(registerForm);
         UserEntity user = UserDto.Request.RegisterForm.toEntity(registerForm);
         userRepository.save(user);
     }
 
-//    private void validateDuplicatedUser(UserDto.Request.RegisterForm registerForm){
-//        Optional<UserEntity> findUser = userRepository.findByEmail(registerForm.getEmail());
-//        findUser.ifPresent(m -> {
-//            throw new IllegalStateException("이미 존재하는 이메일입니다.");
-//        });
-//    }
-
-
+    private void validateDuplicatedUser(UserDto.Request.RegisterForm registerForm){
+        boolean exitsUser =  userRepository.existsByEmail(registerForm.getEmail());
+        if (exitsUser){
+            throw new IllegalStateException("이미 존재하는 이메일입니다.");
+        };
+    }
 }

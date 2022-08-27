@@ -15,19 +15,18 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-//        http
-//                .csrf().disable()
-//                .authorizeRequests()
-//                    .antMatchers("", "/**").permitAll()
-//                    .anyRequest().authenticated()
-//                    .and()
-//                .formLogin()
-//                    .loginProcessingUrl("/users/login")
-//                    .permitAll()
-//                    .defaultSuccessUrl("/")
-//                    .and()
-//                .logout()
-//                    .permitAll();
+        http
+                .authorizeRequests()
+                    .antMatchers("cart/**","users/mypage","order/**").authenticated()
+                    .anyRequest().permitAll()
+                    .and()
+                .formLogin()
+                    .loginProcessingUrl("/users/login")
+                    .permitAll()
+                    .defaultSuccessUrl("/")
+                    .and()
+                .logout()
+                    .permitAll();
 
         return http.build();
     }
