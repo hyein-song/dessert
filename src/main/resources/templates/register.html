@@ -19,8 +19,8 @@
                             <form th:action="@{/users/register}" th:object="${registerForm}" method="post">
                                 <div class="col-md-6 form-group">
                                     <label th:for="name">이름</label>
-                                    <input id="name" name="name" th:feild="*{name}" th:errorclass="field-error" class="form-control" type="text" placeholder="이름">
-                                    <span class="field-error" th:errors="*{name}">name error</span>
+                                    <input id="name" name="name" th:feild="*{name}"  class="form-control" type="text" placeholder="이름">
+                                    <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}">name error</span>
                                 </div>
                                 <div class="col-md-6 form-group">
                                     <label th:for="password">비밀번호</label>
