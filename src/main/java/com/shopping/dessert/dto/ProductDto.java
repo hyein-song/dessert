@@ -4,7 +4,6 @@ import com.shopping.dessert.entity.ProductEntity;
 import lombok.Builder;
 import lombok.Data;
 
-import java.time.LocalDateTime;
 
 public class ProductDto {
 
@@ -37,7 +36,6 @@ public class ProductDto {
             // TODO: Multipart로 image 받기
 //            private String image;
             private Long count;
-            private LocalDateTime productRegTimeDate;
 
             public static Detail of(ProductEntity productEntity){
                 return builder()
@@ -45,7 +43,6 @@ public class ProductDto {
                         .price(productEntity.getPrice())
                         .content(productEntity.getContent())
                         .count(productEntity.getCount())
-                        .productRegTimeDate(productEntity.getProductRegTimeDate())
                         .build();
             }
 

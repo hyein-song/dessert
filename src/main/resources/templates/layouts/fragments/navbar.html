@@ -41,11 +41,8 @@
                             <a th:href="@{/users/register}" class="nav-item nav-link" sec:authorize="!isAuthenticated()">Register</a>
 
                             <!-- 로그인 했을때 -->
-                            <form th:href="@{/users/logout}" method="post" sec:authorize="isAuthenticated()">
-                                <a th:href="@{/users/myPage}" class="nav-item nav-link">My Page</a>
-                                <button class="nav-item nav-link" type="submit">Logout</button>
-                            </form>
-<!--                            form으로 해야되나?? 그냥 위처럼 a로 하면 안되나 -->
+                            <a th:href="@{/users/mypage}" class="nav-item nav-link" sec:authorize="isAuthenticated()">My Page</a>
+                            <a th:href="@{/users/logout}" class="nav-item nav-link" sec:authorize="isAuthenticated()">Logout</a>
                         </div>
                     </div>
                 </nav>

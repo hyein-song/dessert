@@ -44,7 +44,6 @@ public class ProductService {
                 .price(productAddRequest.getPrice())
                 .content(productAddRequest.getContent())
                 .count(productAddRequest.getCount())
-                .productRegTimeDate(LocalDateTime.now())
                 .build();
 
         productRepository.save(productEntity);

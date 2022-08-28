@@ -10,7 +10,10 @@ spring:
       ddl-auto: create
     show-sql: true
     generate-ddl: true
-
+  thymeleaf:
+    cache: false
+#    prefix: classpath:/templates/
+#    suffix: .html
 
 server:
   port: 8080

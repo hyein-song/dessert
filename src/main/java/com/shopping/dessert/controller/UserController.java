@@ -1,13 +1,10 @@
 package com.shopping.dessert.controller;
 
-import com.fasterxml.jackson.core.JsonToken;
 import com.shopping.dessert.controller.validation.UserRegisterValidator;
 import com.shopping.dessert.dto.UserDto;
 import com.shopping.dessert.dto.UserDto.Request;
 import com.shopping.dessert.service.UserService;
 import lombok.RequiredArgsConstructor;
-import lombok.Value;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -26,39 +23,33 @@ public class UserController {
     @GetMapping("/register")
     public String registerForm(Model model){
         model.addAttribute("registerForm",new UserDto.Request.RegisterForm());
-        return "register";
+        return "user/register";
     }
 
     @PostMapping("/register")
     public String registerForm(@Valid Request.RegisterForm registerForm, BindingResult result, Model model){
-
         userRegisterValidator.validate(registerForm,result);
 
         if (result.hasErrors()) {
             model.addAttribute("registerForm",registerForm);
-            return "register";
+            return "user/register";
         }
 
         userService.register(registerForm);
-        return "redirect:/";
+        return "user/registerSuccess";
     }
-
 
     @GetMapping("/login")
-    public String login(){
-        return "login";
+    public String login(Model model){
+        model.addAttribute("loginForm", new UserDto.Request.LoginForm());
+        return "user/login";
     }
 
-//
-//    @GetMapping("/logout")
-//    public String Logout(){
-//
-//    }
-//
-//    @GetMapping("/mypage")
-//    public String getUserMyPage(){
-//
-//    }
+
+    @GetMapping("/mypage")
+    public String getUserMyPage(){
+        return "user/mypage";
+    }
 //
 //    @PutMapping("/myInfo/update")
 //    public String updateUserMyPage(){

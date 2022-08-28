@@ -2,9 +2,7 @@ package com.shopping.dessert.controller.validation;
 
 import com.shopping.dessert.dto.UserDto;
 import com.shopping.dessert.repository.UserRepository;
-import com.shopping.dessert.service.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
