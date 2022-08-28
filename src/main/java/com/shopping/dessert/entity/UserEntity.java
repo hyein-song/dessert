@@ -4,6 +4,7 @@ import com.shopping.dessert.entity.value.UserRole;
 import lombok.*;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
+import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
@@ -18,7 +19,7 @@ import java.util.Set;
 @Getter
 @DynamicInsert
 @DynamicUpdate
-public class UserEntity {
+public class UserEntity extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -37,8 +38,6 @@ public class UserEntity {
 
     @Builder.Default
     private Long point = 0L;
-
-    private LocalDateTime joinDateTime;
 
     @Enumerated(EnumType.STRING)
     private UserRole role;

@@ -18,7 +18,7 @@ import javax.persistence.*;
 @Getter
 @DynamicInsert
 @DynamicUpdate
-public class ReplyEntity {
+public class ReplyEntity extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

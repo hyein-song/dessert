@@ -20,7 +20,7 @@ import java.util.Set;
 @Getter
 @DynamicInsert
 @DynamicUpdate
-public class ProductEntity {
+public class ProductEntity extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -36,8 +36,6 @@ public class ProductEntity {
 //    private String image;
 
     private Long count;
-
-    private LocalDateTime productRegTimeDate;
 
     @OneToMany(mappedBy = "product", fetch = FetchType.LAZY)
     private Set<CartEntity> cart;

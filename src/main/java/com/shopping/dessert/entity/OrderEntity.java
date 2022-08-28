@@ -20,13 +20,11 @@ import java.util.Set;
 @Getter
 @DynamicInsert
 @DynamicUpdate
-public class OrderEntity {
+public class OrderEntity extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long orderId;
-
-    private LocalDateTime orderDateTime;
 
     private Long amount;
 

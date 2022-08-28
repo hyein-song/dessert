@@ -18,7 +18,7 @@ import javax.persistence.*;
 @Getter
 @DynamicInsert
 @DynamicUpdate
-public class CartEntity {
+public class CartEntity extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

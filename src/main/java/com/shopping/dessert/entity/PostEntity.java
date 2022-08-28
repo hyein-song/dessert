@@ -20,7 +20,7 @@ import java.util.Set;
 @Getter
 @DynamicInsert
 @DynamicUpdate
-public class PostEntity {
+public class PostEntity extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
