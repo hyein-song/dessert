@@ -22,17 +22,46 @@ public class UserService {
 
     @Transactional
     public void register(UserDto.Request.RegisterForm registerForm) {
-//        validateDuplicatedUser(registerForm);
+        validateDuplicatedUser(registerForm);
         String originPW = registerForm.getPassword();
         registerForm.setPassword(passwordEncoder.encode(originPW));
         UserEntity user = UserDto.Request.RegisterForm.toEntity(registerForm);
         userRepository.save(user);
     }
 
-//    private void validateDuplicatedUser(UserDto.Request.RegisterForm registerForm){
-//        boolean exitsUser =  userRepository.existsByEmail(registerForm.getEmail());
-//        if (exitsUser){
-//            throw new IllegalStateException("이미 존재하는 이메일입니다.");
-//        };
-//    }
+    @Transactional
+    public UserDto.Request.MyInfoUpdateForm getMyInfo(UserEntity currentUser){
+        UserEntity user = userRepository.findByEmail(currentUser.getEmail()).orElseThrow(()->{
+            throw new IllegalStateException("해당 이메일의 유저가 존재하지 않습니다.");
+        });
+
+        return UserDto.Request.MyInfoUpdateForm.of(user);
+
+    }
+
+    @Transactional
+    public void updateMyInfo(UserDto.Request.MyInfoUpdateForm updateForm, UserEntity currentUser){
+        UserEntity updatedUser = userRepository.findByEmail(updateForm.getEmail()).orElseThrow(()->{
+            throw new IllegalStateException("해당 이메일의 유저가 존재하지 않습니다.");
+        });
+
+        if (!updatedUser.getEmail().equals(currentUser.getEmail())){
+            throw new IllegalStateException("로그인된 사용자가 아닙니다.");
+        }
+        String originPW = updateForm.getPassword();
+        updateForm.setPassword(passwordEncoder.encode(originPW));
+
+        updatedUser.changeUserInfo(updateForm);
+
+    }
+
+
+
+
+    private void validateDuplicatedUser(UserDto.Request.RegisterForm registerForm){
+        boolean exitsUser =  userRepository.existsByEmail(registerForm.getEmail());
+        if (exitsUser){
+            throw new IllegalStateException("이미 존재하는 이메일입니다.");
+        };
+    }
 }

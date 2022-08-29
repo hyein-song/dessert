@@ -1,5 +1,6 @@
 package com.shopping.dessert.entity;
 
+import com.shopping.dessert.dto.UserDto;
 import com.shopping.dessert.entity.value.UserRole;
 import lombok.*;
 import org.hibernate.annotations.DynamicInsert;
@@ -53,5 +54,12 @@ public class UserEntity extends BaseTimeEntity {
     @Builder.Default
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<CartEntity> cartEntities = new LinkedHashSet<>();
+
+    public void changeUserInfo(UserDto.Request.MyInfoUpdateForm updateForm){
+        this.name = updateForm.getName();
+        this.password = updateForm.getPassword();
+        this.phone = updateForm.getPhone();
+        this.address = updateForm.getAddress();
+    }
 
 }

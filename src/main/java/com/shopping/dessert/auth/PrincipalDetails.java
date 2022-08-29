@@ -1,17 +1,22 @@
 package com.shopping.dessert.auth;
 
 import com.shopping.dessert.entity.UserEntity;
+import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
 import java.util.ArrayList;
 import java.util.Collection;
 
+@Data
 public class PrincipalDetails implements UserDetails {
 
     private UserEntity userEntity;
 
     public PrincipalDetails(UserEntity userEntity){
+
         this.userEntity = userEntity;
     }
 
@@ -51,4 +56,5 @@ public class PrincipalDetails implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
+
 }

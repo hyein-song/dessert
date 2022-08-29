@@ -1,10 +1,27 @@
+
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-mypage
-</body>
+
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/layout}">
+
+
+<div layout:fragment="content">
+    <!-- Checkout Start -->
+    <div class="container-fluid bg-secondary mb-5">
+        <div class="d-flex flex-column align-items-center justify-content-center" style="min-height: 300px">
+            <h1 class="font-weight-semi-bold text-uppercase mb-3">My Page</h1>
+            <div class="d-inline-flex">
+<!--                <h3 class="font-weight-semi-bold text-uppercase mb-3">안녕하세요, <span th:text="${currentUser.name}"></span> 님!</h3>-->
+                <p class="m-0"><a th:href="@{/users/myinfo}">회원정보 수정</a></p> <br>
+                <p class="m-0"><a th:href="@{/}">주문 내역</a></p> <br>
+
+                <p class="m-0 px-2">포인트 : </p> <br>
+                <p class="m-0"><a th:href="@{/}">장바구니</a></p>
+            </div>
+        </div>
+    </div>
+        <!-- Checkout End -->
+
+    </div>
 </html>
