@@ -1,0 +1,46 @@
+
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/layout}">
+
+
+<div layout:fragment="content">
+    <!-- Checkout Start -->
+    <div class="container-fluid pt-5">
+        <div class="row px-xl-5">
+            <div class="col-lg-8">
+                <div class="mb-4 text-center">
+                    <h4 class="font-weight-semi-bold mb-4">회원 탈퇴를 원하시면 이메일과 비밀번호를 입력해주세요.</h4>
+                    <div class="text-center">
+                        <!--/*@thymesVar id="deleteForm" type="com.shopping.dessert.dto.UserDto.Request.DeleteForm"*/-->
+                        <!--/*@thymesVar id="password" type="String"*/-->
+                        <!--/*@thymesVar id="deleteFailure" type="String"*/-->
+                        <form th:action="@{/users/delete}" th:object="${deleteForm}" method="post">
+                            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+                            <div th:if="${param.error}">
+                                <div class="alert alert-danger" th:text="${deleteFailure}">
+                                    사용자 이메일 또는 비밀번호를 확인해 주세요.
+                                </div>
+                            </div>
+                            <div class="col-md-6 form-group">
+                                <label th:for="email">이메일</label>
+                                <input id="email" name="email" th:feild="*{email}" class="form-control" type="text" placeholder="example@email.com" />
+                                <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}">email error</span>
+                            </div>
+                            <div class="col-md-6 form-group">
+                                <label th:for="password">비밀번호</label>
+                                <input id="password" name="password" th:feild="*{password}" class="form-control" type="password" placeholder="비밀번호">
+                                <span th:if="${#fields.hasErrors('password')}" th:errors="*{password}">password error</span>
+                            </div>
+                            <button class="btn btn-lg btn-block btn-primary font-weight-bold my-3 py-3 form-control" type="submit">탈퇴하기</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Checkout End -->
+
+    </div>
+</html>

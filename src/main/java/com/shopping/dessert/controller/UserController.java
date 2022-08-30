@@ -17,6 +17,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import javax.xml.bind.annotation.XmlAccessorOrder;
 
 @Controller
 @RequiredArgsConstructor
@@ -53,7 +54,7 @@ public class UserController {
 
 
     @GetMapping("/mypage")
-    public String getUserMyPage(Model model){
+    public String getUserMyPage(){
         return "user/mypage";
     }
 
@@ -80,12 +81,36 @@ public class UserController {
         userService.updateMyInfo(myInfoUpdateForm, userEntity);
         return "redirect:/users/myinfo";
     }
-//
-//    @DeleteMapping
-//    public String deleteUser(){
-//
-//    }
-//
+
+
+    @GetMapping("/delete")
+    public String deleteUser(Model model){
+        model.addAttribute("deleteForm", new UserDto.Request.DeleteForm());
+        return "user/delete";
+    }
+
+
+    @PostMapping("/delete")
+    public String deleteUser(@Valid UserDto.Request.DeleteForm deleteForm, BindingResult result, Model model, @CurrentUser UserEntity userEntity){
+
+        if (result.hasErrors()){
+            model.addAttribute("deleteForm",deleteForm);
+            return "user/delete";
+        }
+
+        try {
+            userService.delete(deleteForm,userEntity);
+        } catch (Exception e){
+            System.out.println(e.getMessage());
+            result.reject("deleteFailure", e.getMessage());
+            model.addAttribute("deleteForm",deleteForm);
+            return "user/delete";
+        }
+
+        return "redirect:/users/logout";
+
+    }
+
 
 
 
