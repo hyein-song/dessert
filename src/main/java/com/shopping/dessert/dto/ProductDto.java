@@ -19,7 +19,6 @@ public class ProductDto {
 //            private String image;
             private Long count;
 
-
         }
 
     }

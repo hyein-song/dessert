@@ -5,18 +5,16 @@ import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Pattern;
+
 import java.util.ArrayList;
 import java.util.Collection;
 
-@Data
+@Getter
 public class PrincipalDetails implements UserDetails {
 
-    private UserEntity userEntity;
+    private final UserEntity userEntity;
 
     public PrincipalDetails(UserEntity userEntity){
-
         this.userEntity = userEntity;
     }
 

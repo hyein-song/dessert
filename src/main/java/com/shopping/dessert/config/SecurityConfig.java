@@ -5,7 +5,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
@@ -17,12 +16,12 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                    .antMatchers("/cart/**","/users/mypage","/order/**").authenticated()
+                    .antMatchers("/cart/**","/users/**","/order/**").authenticated()
                     .anyRequest().permitAll()
                     .and()
                 .formLogin()
-                    .loginPage("/users/login")
-                    .loginProcessingUrl("/users/loginProc")
+                    .loginPage("/account/login")
+                    .loginProcessingUrl("/account/loginProc")
                     .permitAll()
                     .usernameParameter("email")
                     .passwordParameter("password")
@@ -37,7 +36,7 @@ public class SecurityConfig {
     }
 
     @Bean
-    public PasswordEncoder passwordEncoder(){
+    public BCryptPasswordEncoder passwordEncoder(){
         return new BCryptPasswordEncoder();
     }
 

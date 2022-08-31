@@ -13,7 +13,7 @@
                 <div class="mb-4">
                         <!--/*@thymesVar id="loginForm" type="com.shopping.dessert.dto.UserDto.Request.LoginForm"*/-->
                         <!--/*@thymesVar id="email" type="String"*/-->
-                        <form th:action="@{/users/loginProc}" th:object="${loginForm}" method="post">
+                        <form th:action="@{/account/loginProc}" th:object="${loginForm}" method="post">
                             <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
                             <div th:if="${param.error}">
                                 <div class="alert alert-danger">
