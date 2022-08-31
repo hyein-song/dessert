@@ -37,12 +37,19 @@
 
                         <div class="navbar-nav ml-auto py-0">
                             <!-- 로그인 안했을때 -->
-                            <a th:href="@{/account/login}" class="nav-item nav-link" sec:authorize="!isAuthenticated()">Login</a>
-                            <a th:href="@{/account/register}" class="nav-item nav-link" sec:authorize="!isAuthenticated()">Register</a>
-
+                            <div class="navbar-nav ml-auto py-0" sec:authorize="!isAuthenticated()">
+                                <a th:href="@{/account/login}" class="nav-item nav-link">Login</a>
+                                <a th:href="@{/account/register}" class="nav-item nav-link">Register</a>
+                            </div>
                             <!-- 로그인 했을때 -->
-                            <a th:href="@{/users/mypage}" class="nav-item nav-link" sec:authorize="isAuthenticated()">My Page</a>
-                            <a th:href="@{/users/logout}" class="nav-item nav-link" sec:authorize="isAuthenticated()">Logout</a>
+                            <div class="navbar-nav ml-auto py-0" sec:authorize="isAuthenticated()">
+                                <div sec:authorize="hasRole('ROLE_ADMIN')">
+                                    <a th:href="@{/products/add}" class="nav-item nav-link" >Add Product</a>
+                                </div>
+                                <a th:href="@{/users/mypage}" class="nav-item nav-link" >My Page</a>
+                                <a th:href="@{/users/logout}" class="nav-item nav-link" >Logout</a>
+
+                            </div>
                         </div>
                     </div>
                 </nav>

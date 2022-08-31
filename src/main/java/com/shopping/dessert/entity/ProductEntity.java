@@ -35,7 +35,8 @@ public class ProductEntity extends BaseTimeEntity {
     // TODO: Multipart로 image 받기
 //    private String image;
 
-    private Long count;
+    private Long amount;
+
 
     @OneToMany(mappedBy = "product", fetch = FetchType.LAZY)
     private Set<CartEntity> cart;

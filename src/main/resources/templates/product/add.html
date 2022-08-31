@@ -1,0 +1,50 @@
+
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/layout}">
+
+
+<div layout:fragment="content">
+    <!-- Checkout Start -->
+    <div class="container-fluid pt-5">
+        <div class="row px-xl-5">
+            <div class="col-lg-8">
+                <div class="mb-4 text-center">
+                    <h4 class="font-weight-semi-bold mb-4">상품 추가</h4>
+                    <div class="text-center">
+                        <!--/*@thymesVar id="addForm" type="com.shopping.dessert.dto.ProductDto.Request.AddForm"*/-->
+                        <!--/*@thymesVar id="name" type="String"*/-->
+                        <form th:action="@{/products/add}" th:object="${addForm}" method="post">
+                            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+                            <div class="col-md-6 form-group">
+                                <label th:for="name">상품명</label>
+                                <input id="name" name="name" th:feild="*{name}" th:value="*{name}"  class="form-control" type="text" placeholder="상품명" />
+                                <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}">name error</span>
+                            </div>
+                            <div class="col-md-6 form-group">
+                                <label th:for="price">상품 가격</label>
+                                <input id="price" name="price" th:feild="*{price}" th:value="*{price}" class="form-control" type="text" placeholder="상품 가격">
+                                <span th:if="${#fields.hasErrors('price')}" th:errors="*{price}">price error</span>
+                            </div>
+                            <div class="col-md-6 form-group">
+                                <label th:for="content">상품 상세내용</label>
+                                <input id="content" name="content" th:feild="*{content}" th:value="*{content}" class="form-control" type="text" placeholder="상품 상세 내용">
+                                <span th:if="${#fields.hasErrors('content')}" th:errors="*{content}">content error</span>
+                            </div>
+                            <div class="col-md-6 form-group">
+                                <label th:for="amount">상품 수량</label>
+                                <input id="amount" name="amount" th:feild="*{amount}" th:value="*{amount}" class="form-control" type="text" placeholder="상품 수량">
+                                <span th:if="${#fields.hasErrors('amount')}" th:errors="*{amount}">amount error</span>
+                            </div>
+                            <button class="btn btn-lg btn-block btn-primary font-weight-bold my-3 py-3 form-control" type="submit">상품 추가하기</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Checkout End -->
+
+    </div>
+</html>
