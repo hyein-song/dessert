@@ -2,10 +2,11 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       layout:decorate="~{layouts/layout}">
 
 <div layout:fragment="content">
-    <!--/*@thymesVar id="detail" type="com.shopping.dessert.dto.ProductDto.Response.Detail"*/-->
+    <!--/*@thymesVar id="detail" type="com.shopping.dessert.dto.ProductDto.Detail"*/-->
     <!--/*@thymesVar id="name" type="String"*/-->
     <!-- Shop Detail Start -->
     <div class="container-fluid py-5">
@@ -40,6 +41,7 @@
                 <h3 class="font-weight-semi-bold" th:text="${detail.name}">상품 이름</h3>
                 <h3 class="font-weight-semi-bold mb-4" th:text="${detail.price}">상품 가격</h3>
                 <p class="mb-4" th:text="${detail.content}"></p>
+
                 <div class="d-flex align-items-center mb-4 pt-2">
                     <div class="input-group quantity mr-3" style="width: 130px;">
                         <div class="input-group-btn">
@@ -55,6 +57,10 @@
                         </div>
                     </div>
                     <button class="btn btn-primary px-3"><i class="fa fa-shopping-cart mr-1"></i> Add To Cart</button>
+                </div>
+                <div sec:authorize="hasRole('ROLE_ADMIN')">
+                    <a class="btn btn-primary px-3" th:href="@{/products/update/{productId}(productId = ${detail.productId})}">상품 수정</a>
+                    <a class="btn btn-primary px-3" th:href="@{/products/delete/{productId}(productId = ${detail.productId})}">상품 삭제</a>
                 </div>
             </div>
         </div>

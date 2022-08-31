@@ -1,5 +1,7 @@
 package com.shopping.dessert.entity;
 
+import com.shopping.dessert.dto.ProductDto;
+import com.shopping.dessert.dto.UserDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -49,5 +51,11 @@ public class ProductEntity extends BaseTimeEntity {
     @OneToMany(mappedBy = "product", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<OrderProductEntity> orderProductEntities = new LinkedHashSet<>();
 
+    public void changProductInfo(ProductDto.Detail detail){
+        this.name = detail.getName();
+        this.price = detail.getPrice();
+        this.content = detail.getContent();
+        this.amount = detail.getAmount();
+    }
 
 }

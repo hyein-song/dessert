@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -28,26 +29,48 @@ public class ProductService {
     }
 
     @Transactional
-    public List<ProductDto.Response.Detail> getProductList(){
+    public void updateProduct(ProductDto.Detail detail){
+        ProductEntity productEntity = productRepository.findByProductId(detail.getProductId()).orElseThrow(()->{
+            throw new IllegalStateException("해당 id의 상품이 존재하지 않습니다.");
+        });
+
+        productEntity.changProductInfo(detail);
+
+    }
+
+    @Transactional
+    public void deleteProduct(Long productId){
+        ProductEntity productEntity = productRepository.findByProductId(productId).orElseThrow(()->{
+            throw new IllegalStateException("해당 id의 상품이 존재하지 않습니다.");
+        });
+
+        productRepository.delete(productEntity);
+
+    }
+
+
+    @Transactional
+    public List<ProductDto.Detail> getProductList(){
 
         List<ProductEntity> productEntities = productRepository.findAll();
 
         return productEntities.stream()
-                .map(ProductDto.Response.Detail::of)
+                .map(ProductDto.Detail::of)
                 .collect(Collectors.toList());
     }
 
     @Transactional
-    public ProductDto.Response.Detail getProductDetail(Long productId){
+    public ProductDto.Detail getProductDetail(Long productId){
         ProductEntity productEntity = productRepository.findByProductId(productId).orElseThrow(()->{
             throw new IllegalStateException("해당 id를 가진 상품이 존재하지 않습니다.");
         });
 
-        return ProductDto.Response.Detail.of(productEntity);
+        return ProductDto.Detail.of(productEntity);
     }
 
 
-    public boolean isExistedName(String name){
-        return productRepository.existsByName(name);
+
+    public Optional<ProductEntity> getProductByName(String productName){
+        return productRepository.findByName(productName);
     }
 }
