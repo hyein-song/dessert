@@ -90,17 +90,6 @@ public class ProductController {
     }
 
 
-//    //TODO: page 적용
-//    @GetMapping("/list")
-//    public String getProductList(Model model){
-//
-//        List<ProductDto.Detail> products = productService.getProductList();
-//        model.addAttribute("products",products);
-//
-//        return "product/list";
-//
-//    }
-
     @GetMapping("/list")
     public String getProductList(Model model, Pageable pageable){
         Page<ProductDto.Detail> products = productService.getProductList(pageable);
