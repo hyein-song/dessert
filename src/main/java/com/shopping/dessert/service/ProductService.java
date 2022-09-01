@@ -5,8 +5,12 @@ import com.shopping.dessert.entity.ProductEntity;
 import com.shopping.dessert.repository.ProductRepository;
 import javassist.NotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -48,15 +52,10 @@ public class ProductService {
 
     }
 
-
     @Transactional
-    public List<ProductDto.Detail> getProductList(){
-
-        List<ProductEntity> productEntities = productRepository.findAll();
-
-        return productEntities.stream()
-                .map(ProductDto.Detail::of)
-                .collect(Collectors.toList());
+    public Page<ProductDto.Detail> getProductList(Pageable pageable){
+        Page<ProductEntity> productEntities = productRepository.findAll(pageable);
+        return productEntities.map(ProductDto.Detail::of);
     }
 
     @Transactional

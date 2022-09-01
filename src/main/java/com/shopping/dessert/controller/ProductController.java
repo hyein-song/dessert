@@ -6,6 +6,10 @@ import com.shopping.dessert.service.ProductService;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Role;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -86,13 +90,21 @@ public class ProductController {
     }
 
 
-    //TODO: page 적용
+//    //TODO: page 적용
+//    @GetMapping("/list")
+//    public String getProductList(Model model){
+//
+//        List<ProductDto.Detail> products = productService.getProductList();
+//        model.addAttribute("products",products);
+//
+//        return "product/list";
+//
+//    }
+
     @GetMapping("/list")
-    public String getProductList(Model model){
-
-        List<ProductDto.Detail> products = productService.getProductList();
+    public String getProductList(Model model, Pageable pageable){
+        Page<ProductDto.Detail> products = productService.getProductList(pageable);
         model.addAttribute("products",products);
-
         return "product/list";
 
     }
