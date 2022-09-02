@@ -6,6 +6,10 @@
       layout:decorate="~{layouts/layout}">
 
 <div layout:fragment="content">
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
+
+    <script type="text/javascript" th:src="@{/js/main.js}"></script>
 <!--/*@thymesVar id="productDetail" type="com.shopping.dessert.dto.ProductDto.ProductDetail"*/-->
 <!--/*@thymesVar id="name" type="String"*/-->
 <!--/*@thymesVar id="cartAddForm" type="com.shopping.dessert.dto.CartDto.Response.CartAddForm"*/-->
@@ -191,9 +195,9 @@
     <!-- Shop ProductDetail End -->
 
     <!-- Back to Top -->
-    <a href="#" class="btn btn-primary back-to-top"><i class="fa fa-angle-double-up"></i></a>
+<!--    <a href="#" class="btn btn-primary back-to-top"><i class="fa fa-angle-double-up"></i></a>-->
 
-    <script th:inline="javascript">
+    <script type="text/javascript" th:inline="javascript">
         $('.quantity button').on('click', function () {
             var button = $(this);
             var oldValue = button.parent().parent().find('input').val();
@@ -209,7 +213,6 @@
             button.parent().parent().find('input').val(newVal);
         });
     </script>
-
 
 </div>
 
