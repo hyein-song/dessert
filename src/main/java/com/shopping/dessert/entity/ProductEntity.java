@@ -1,7 +1,6 @@
 package com.shopping.dessert.entity;
 
 import com.shopping.dessert.dto.ProductDto;
-import com.shopping.dessert.dto.UserDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -10,7 +9,6 @@ import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
@@ -51,11 +49,11 @@ public class ProductEntity extends BaseTimeEntity {
     @OneToMany(mappedBy = "product", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<OrderProductEntity> orderProductEntities = new LinkedHashSet<>();
 
-    public void changProductInfo(ProductDto.Detail detail){
-        this.name = detail.getName();
-        this.price = detail.getPrice();
-        this.content = detail.getContent();
-        this.amount = detail.getAmount();
+    public void changProductInfo(ProductDto.ProductDetail productDetail){
+        this.name = productDetail.getName();
+        this.price = productDetail.getPrice();
+        this.content = productDetail.getContent();
+        this.amount = productDetail.getAmount();
     }
 
 }

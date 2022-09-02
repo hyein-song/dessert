@@ -3,19 +3,14 @@ package com.shopping.dessert.service;
 import com.shopping.dessert.dto.ProductDto;
 import com.shopping.dessert.entity.ProductEntity;
 import com.shopping.dessert.repository.ProductRepository;
-import javassist.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 
-import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -24,21 +19,21 @@ public class ProductService {
     private final ProductRepository productRepository;
 
     @Transactional
-    public Long addProduct(ProductDto.Request.AddForm addForm) {
+    public Long addProduct(ProductDto.Request.ProductAddForm productAddForm) {
 
-        ProductEntity productEntity = addForm.toEntity();
+        ProductEntity productEntity = productAddForm.toEntity();
 
         ProductEntity product = productRepository.save(productEntity);
         return product.getProductId();
     }
 
     @Transactional
-    public void updateProduct(ProductDto.Detail detail){
-        ProductEntity productEntity = productRepository.findByProductId(detail.getProductId()).orElseThrow(()->{
+    public void updateProduct(ProductDto.ProductDetail productDetail){
+        ProductEntity productEntity = productRepository.findByProductId(productDetail.getProductId()).orElseThrow(()->{
             throw new IllegalStateException("해당 id의 상품이 존재하지 않습니다.");
         });
 
-        productEntity.changProductInfo(detail);
+        productEntity.changProductInfo(productDetail);
 
     }
 
@@ -53,18 +48,18 @@ public class ProductService {
     }
 
     @Transactional
-    public Page<ProductDto.Detail> getProductList(Pageable pageable){
+    public Page<ProductDto.ProductDetail> getProductList(Pageable pageable){
         Page<ProductEntity> productEntities = productRepository.findAll(pageable);
-        return productEntities.map(ProductDto.Detail::of);
+        return productEntities.map(ProductDto.ProductDetail::of);
     }
 
     @Transactional
-    public ProductDto.Detail getProductDetail(Long productId){
+    public ProductDto.ProductDetail getProductDetail(Long productId){
         ProductEntity productEntity = productRepository.findByProductId(productId).orElseThrow(()->{
             throw new IllegalStateException("해당 id를 가진 상품이 존재하지 않습니다.");
         });
 
-        return ProductDto.Detail.of(productEntity);
+        return ProductDto.ProductDetail.of(productEntity);
     }
 
 

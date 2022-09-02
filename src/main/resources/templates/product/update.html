@@ -14,9 +14,9 @@
                 <div class="mb-4 text-center">
                     <h4 class="font-weight-semi-bold mb-4">상품 정보 수정</h4>
                     <div class="text-center">
-                        <!--/*@thymesVar id="detail" type="com.shopping.dessert.dto.ProductDto.Detail"*/-->
+                        <!--/*@thymesVar id="productDetail" type="com.shopping.dessert.dto.ProductDto.Detail"*/-->
                         <!--/*@thymesVar id="name" type="String"*/-->
-                        <form th:action="@{/products/update/{productId}(productId = ${detail.productId})}" th:object="${detail}" method="post">
+                        <form th:action="@{/products/update/{productId}(productId = ${productDetail.productId})}" th:object="${productDetail}" method="post">
                             <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
                             <div class="col-md-6 form-group">
                                 <label th:for="name">상품명</label>

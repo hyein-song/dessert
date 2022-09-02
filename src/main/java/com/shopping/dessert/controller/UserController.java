@@ -55,24 +55,24 @@ public class UserController {
 
     @GetMapping("/delete")
     public String deleteUser(Model model){
-        model.addAttribute("deleteForm", new UserDto.Request.DeleteForm());
+        model.addAttribute("deleteForm", new Request.UserDeleteForm());
         return "user/delete";
     }
 
     @PostMapping("/delete")
-    public String deleteUser(@Valid UserDto.Request.DeleteForm deleteForm, BindingResult result, Model model, @CurrentUser UserEntity userEntity){
+    public String deleteUser(@Valid UserDto.Request.UserDeleteForm userDeleteForm, BindingResult result, Model model, @CurrentUser UserEntity userEntity){
 
         if (result.hasErrors()){
-            model.addAttribute("deleteForm",deleteForm);
+            model.addAttribute("deleteForm", userDeleteForm);
             return "user/delete";
         }
 
         try {
-            userService.delete(deleteForm,userEntity);
+            userService.delete(userDeleteForm,userEntity);
         } catch (Exception e){
             System.out.println(e.getMessage());
             result.reject("deleteFailure", e.getMessage());
-            model.addAttribute("deleteForm",deleteForm);
+            model.addAttribute("deleteForm", userDeleteForm);
             return "user/delete";
         }
 

@@ -1,6 +1,7 @@
 package com.shopping.dessert.entity;
 
 
+import com.shopping.dessert.dto.CartDto;
 import com.sun.istack.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -24,8 +25,6 @@ public class CartEntity extends BaseTimeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long cartId;
 
-    private Long count;
-
     private Long amount;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -38,5 +37,8 @@ public class CartEntity extends BaseTimeEntity {
     @JoinColumn(name="productId")
     private ProductEntity product;
 
+    public void changeCartEntity(CartDto.Response.CartAddForm addForm){
+        this.amount += addForm.getAmount();
+    }
 
 }
