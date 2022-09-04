@@ -46,9 +46,9 @@
                                 <div sec:authorize="hasRole('ROLE_ADMIN')">
                                     <a th:href="@{/products/add}" class="nav-item nav-link" >Add Product</a>
                                 </div>
+                                <a th:href="@{/carts/list}" class="nav-item nav-link" >Cart</a>
                                 <a th:href="@{/users/mypage}" class="nav-item nav-link" >My Page</a>
                                 <a th:href="@{/users/logout}" class="nav-item nav-link" >Logout</a>
-
                             </div>
                         </div>
                     </div>

@@ -63,5 +63,14 @@ public class CartService {
 
     }
 
+    @Transactional
+    public void deleteFromCart(Long cartId){
+        CartEntity cart = cartRepository.findById(cartId).orElseThrow(()->{
+            throw new IllegalStateException("해당 id의 장바구니 아이템이 존재하지 않습니다.");
+        });
+
+        cartRepository.delete(cart);
+    }
+
 
 }

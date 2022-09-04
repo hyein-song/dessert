@@ -39,6 +39,9 @@ public class CartController {
 
     @GetMapping
     public String getCartList(@CurrentUser UserEntity currentUser, Model model){
+        if (currentUser == null){
+            return "redirect:/account/login";
+        }
         List<CartDto.Response.CartDetailForm> cartItems =  cartService.getCartlist(currentUser);
         model.addAttribute("cartItems",cartItems);
         // 0개 일 시 프론트에서 '장바구니가 비어있습니다.' 출력
@@ -50,12 +53,14 @@ public class CartController {
 //
 //    }
 
-//
-//    @DeleteMapping("/{cartId}")
-//    public String deleteFromCart(@PathVariable Long cartId){
-//
-//    }
-//
+
+    @PostMapping("/delete/{cartId}")
+    public String deleteFromCart(@PathVariable Long cartId){
+        cartService.deleteFromCart(cartId);
+        return "redirect:/carts";
+
+    }
+
 
 
 }
