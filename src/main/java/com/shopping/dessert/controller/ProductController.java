@@ -1,5 +1,6 @@
 package com.shopping.dessert.controller;
 
+import com.shopping.dessert.dto.CartDto;
 import com.shopping.dessert.dto.ProductDto;
 import com.shopping.dessert.entity.ProductEntity;
 import com.shopping.dessert.service.ProductService;
@@ -96,6 +97,7 @@ public class ProductController {
     @GetMapping("/{productId}")
     public String getProductDetail(@PathVariable Long productId, Model model){
         model.addAttribute("productDetail", productService.getProductDetail(productId));
+        model.addAttribute("cartAddForm",new CartDto.Response.CartAddForm());
         return "product/detail";
     }
 

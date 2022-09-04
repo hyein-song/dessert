@@ -48,26 +48,28 @@
                 <h3 class="font-weight-semi-bold mb-4" th:text="${productDetail.price}">상품 가격</h3>
                 <p class="mb-4" th:text="${productDetail.content}"></p>
 
-                <!--                    <form th:action="@{/carts/add}" th:object="${cartAddForm}" method="post">-->
-                <div class="d-flex align-items-center mb-4 pt-2">
-                    <div class="input-group quantity mr-3" style="width: 130px;">
-                        <div class="input-group-btn">
-                            <button class="btn btn-primary btn-minus">
-                                <i class="fa fa-minus"></i>
-                            </button>
+                <form th:action="@{/carts/add}" th:object="${cartAddForm}" method="post">
+                    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+                    <input type="hidden" th:value="${productDetail.productId}" th:feild="*{productId}" name="productId">
+                    <div class="d-flex align-items-center mb-4 pt-2">
+                        <div class="input-group quantity mr-3" style="width: 130px;">
+                            <div class="input-group-btn">
+                                <button type="button" class="btn btn-primary btn-minus">
+                                    <i class="fa fa-minus"></i>
+                                </button>
+                            </div>
+                            <input type="text" class="form-control bg-secondary text-center" th:feild="*{amount}" th:value="1" name="amount">
+                            <div class="input-group-btn">
+                                <button type="button" class="btn btn-primary btn-plus">
+                                    <i class="fa fa-plus"></i>
+                                </button>
+                            </div>
                         </div>
-                        <input type="text" class="form-control bg-secondary text-center" value="1">
-                        <div class="input-group-btn">
-                            <button class="btn btn-primary btn-plus">
-                                <i class="fa fa-plus"></i>
-                            </button>
-                        </div>
+                        <button class="btn btn-primary px-3 auth" type="submit"><i class="fa fa-shopping-cart mr-1"></i> Add To
+                            Cart
+                        </button>
                     </div>
-                    <button class="btn btn-primary px-3"><i class="fa fa-shopping-cart mr-1"></i> Add To
-                        Cart
-                    </button>
-                </div>
-                <!--                    </form>-->
+                </form>
 
                 <div sec:authorize="hasRole('ROLE_ADMIN')">
                     <a class="btn btn-primary px-3"
@@ -204,10 +206,10 @@
             if (button.hasClass('btn-plus')) {
                 var newVal = parseFloat(oldValue) + 1;
             } else {
-                if (oldValue > 0) {
+                if (oldValue > 1) {
                     var newVal = parseFloat(oldValue) - 1;
                 } else {
-                    newVal = 0;
+                    newVal = 1;
                 }
             }
             button.parent().parent().find('input').val(newVal);

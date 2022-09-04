@@ -6,6 +6,9 @@ import com.shopping.dessert.entity.UserEntity;
 import lombok.Builder;
 import lombok.Data;
 
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+
 
 public class CartDto {
 
@@ -14,8 +17,12 @@ public class CartDto {
         @Data
         public static class CartAddForm{
 
+            @NotNull
             Long productId;
-            Long amount = 0L;
+
+            @NotNull
+            @Min(1)
+            Long amount = 1L;
 
         }
 
