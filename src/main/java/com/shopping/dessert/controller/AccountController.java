@@ -20,13 +20,13 @@ public class AccountController {
     private final UserService userService;
 
     @GetMapping("/register")
-    public String registerForm(Model model){
+    public String getRegisterForm(Model model){
         model.addAttribute("registerForm",new UserDto.Request.RegisterForm());
         return "user/register";
     }
 
     @PostMapping("/register")
-    public String registerForm(@Valid UserDto.Request.RegisterForm registerForm, BindingResult result, Model model){
+    public String register(@Valid UserDto.Request.RegisterForm registerForm, BindingResult result, Model model){
 
         if (!registerForm.getPassword().equals(registerForm.getPasswordConfirm())){
             result.rejectValue("passwordConfirm","passwordIncorrect", "비밀번호가 일치하지 않습니다.");
