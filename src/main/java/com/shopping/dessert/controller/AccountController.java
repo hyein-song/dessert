@@ -6,9 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
@@ -26,8 +24,9 @@ public class AccountController {
     }
 
     @PostMapping("/register")
-    public String register(@Valid UserDto.Request.RegisterForm registerForm, BindingResult result, Model model){
+    public String register(@Valid @RequestBody UserDto.Request.RegisterForm registerForm, BindingResult result, Model model){
 
+//        System.out.println(registerForm.getPassword());
         if (!registerForm.getPassword().equals(registerForm.getPasswordConfirm())){
             result.rejectValue("passwordConfirm","passwordIncorrect", "비밀번호가 일치하지 않습니다.");
         }
