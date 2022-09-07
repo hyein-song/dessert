@@ -5,7 +5,6 @@ import com.shopping.dessert.dto.CartDto;
 import com.shopping.dessert.entity.UserEntity;
 import com.shopping.dessert.service.CartService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -44,14 +43,8 @@ public class CartController {
         }
         List<CartDto.Response.CartDetailForm> cartItems =  cartService.getCartlist(currentUser);
         model.addAttribute("cartItems",cartItems);
-        // 0개 일 시 프론트에서 '장바구니가 비어있습니다.' 출력
         return "cart/list";
     }
-
-//    @PostMapping()
-//    public String updateCart(){
-//
-//    }
 
 
     @PostMapping("/delete/{cartId}")
