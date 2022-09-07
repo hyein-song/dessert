@@ -28,8 +28,7 @@ public class UserController {
 
     @GetMapping("/myinfo")
     public String getUserInfo(Model model, @CurrentUser UserEntity userEntity){
-        Request.MyInfoUpdateForm myInfoUpdateForm = userService.getMyInfo(userEntity);
-        model.addAttribute("myInfoUpdateForm",myInfoUpdateForm);
+        model.addAttribute("myInfoUpdateForm", Request.MyInfoUpdateForm.of(userEntity));
         return "user/myinfo";
     }
 

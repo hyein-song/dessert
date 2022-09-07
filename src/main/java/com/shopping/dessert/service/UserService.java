@@ -1,10 +1,17 @@
 package com.shopping.dessert.service;
 
+import com.shopping.dessert.auth.PrincipalDetails;
+import com.shopping.dessert.auth.PrincipalDetailsService;
 import com.shopping.dessert.dto.UserDto;
 import com.shopping.dessert.entity.UserEntity;
 import com.shopping.dessert.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,7 +22,9 @@ import org.springframework.transaction.annotation.Transactional;
 public class UserService {
 
     private final UserRepository userRepository;
-    private final BCryptPasswordEncoder passwordEncoder;
+    private final PasswordEncoder passwordEncoder;
+
+    private final AuthenticationManager authenticationManager;
 
     @Transactional
     public void register(UserDto.Request.RegisterForm registerForm){
@@ -53,6 +62,10 @@ public class UserService {
         updateForm.setPassword(passwordEncoder.encode(originPW));
 
         updatedUser.changeUserInfo(updateForm);
+
+        // 세션 업데이트
+        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(updatedUser.getEmail(),originPW));
+        SecurityContextHolder.getContext().setAuthentication(authentication);
 
     }
 
