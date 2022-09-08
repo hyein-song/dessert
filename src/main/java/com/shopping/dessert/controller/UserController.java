@@ -1,11 +1,15 @@
 package com.shopping.dessert.controller;
 
 import com.shopping.dessert.Custom.CurrentUser;
+import com.shopping.dessert.auth.PrincipalDetails;
+import com.shopping.dessert.auth.PrincipalDetailsService;
 import com.shopping.dessert.dto.UserDto;
 import com.shopping.dessert.dto.UserDto.Request;
 import com.shopping.dessert.entity.UserEntity;
 import com.shopping.dessert.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -21,19 +25,21 @@ public class UserController {
 
     private final UserService userService;
 
+
     @GetMapping("/mypage")
     public String getUserMyPage(){
         return "user/mypage";
     }
 
     @GetMapping("/myinfo")
-    public String getUserInfo(Model model, @CurrentUser UserEntity userEntity){
+    public String getUserInfo(Model model, @AuthenticationPrincipal PrincipalDetails principalDetails){
+        UserEntity userEntity = principalDetails.getUserEntity();
         model.addAttribute("myInfoUpdateForm", Request.MyInfoUpdateForm.of(userEntity));
         return "user/myinfo";
     }
 
     @PostMapping("/myinfo")
-    public String updateUserMyInfo(@Valid Request.MyInfoUpdateForm myInfoUpdateForm, BindingResult result, Model model, @CurrentUser UserEntity userEntity){
+    public String updateUserMyInfo(@Valid Request.MyInfoUpdateForm myInfoUpdateForm, BindingResult result, Model model){
 
         //validation
         if (!myInfoUpdateForm.getPassword().equals(myInfoUpdateForm.getPasswordConfirm())){
@@ -47,7 +53,7 @@ public class UserController {
         }
 
         //성공 시
-        userService.updateMyInfo(myInfoUpdateForm, userEntity);
+        userService.updateMyInfo(myInfoUpdateForm);
         return "redirect:/users/myinfo";
     }
 

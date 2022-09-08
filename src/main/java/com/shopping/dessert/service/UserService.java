@@ -50,14 +50,11 @@ public class UserService {
     }
 
     @Transactional
-    public void updateMyInfo(UserDto.Request.MyInfoUpdateForm updateForm, UserEntity currentUser){
+    public void updateMyInfo(UserDto.Request.MyInfoUpdateForm updateForm){
         UserEntity updatedUser = userRepository.findByEmail(updateForm.getEmail()).orElseThrow(()->{
             throw new IllegalStateException("해당 이메일의 유저가 존재하지 않습니다.");
         });
 
-        if (!updatedUser.getEmail().equals(currentUser.getEmail())){
-            throw new IllegalStateException("로그인된 사용자가 아닙니다.");
-        }
         String originPW = updateForm.getPassword();
         updateForm.setPassword(passwordEncoder.encode(originPW));
 

@@ -25,9 +25,9 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@WebMvcTest(controllers = AccountController.class)
-@Import(SecurityConfig.class)
+@WebMvcTest(AccountController.class)
 @MockBean(JpaMetamodelMappingContext.class)
+@Import(SecurityConfig.class)
 class AccountControllerTest {
 
     @Autowired
@@ -42,6 +42,7 @@ class AccountControllerTest {
     @Test
     void getRegisterForm() throws Exception{
 
+        //when & then
         mockMvc.perform(get("/account/register"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("user/register"))
@@ -63,9 +64,10 @@ class AccountControllerTest {
                 .password("Qwerty123!")
                 .passwordConfirm("Qwerty123!")
                 .build();
-
+        //mocking
         doNothing().when(userService).register(registerForm);
 
+        //when & then
         mockMvc.perform(post("/account/register")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(registerForm))
@@ -82,6 +84,7 @@ class AccountControllerTest {
     @Test
     void login() throws Exception {
 
+        //when & then
         mockMvc.perform(get("/account/login"))
                 .andExpect(status().isOk())
                 .andExpect(model().attributeExists("loginForm"))
