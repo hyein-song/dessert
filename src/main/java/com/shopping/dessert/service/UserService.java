@@ -67,14 +67,14 @@ public class UserService {
     }
 
     @Transactional
-    public void delete(UserDto.Request.UserDeleteForm userDeleteForm, UserEntity currentUser){
+    public void delete(UserDto.Request.UserDeleteForm userDeleteForm){
         UserEntity user = userRepository.findByEmail(userDeleteForm.getEmail()).orElseThrow(()->{
             throw new IllegalStateException("해당 이메일의 유저가 존재하지 않습니다.");
         });
 
-        if (!user.getEmail().equals(currentUser.getEmail())){
-            throw new IllegalStateException("로그인된 사용자가 아닙니다.");
-        }
+//        if (!user.getEmail().equals(currentUser.getEmail())){
+//            throw new IllegalStateException("로그인된 사용자가 아닙니다.");
+//        }
 
         String originPW = userDeleteForm.getPassword();
         if (passwordEncoder.matches(originPW, userDeleteForm.getPassword())){

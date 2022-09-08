@@ -15,6 +15,7 @@
                     <h4 class="font-weight-semi-bold mb-4">회원 탈퇴를 원하시면 이메일과 비밀번호를 입력해주세요.</h4>
                     <div class="text-center">
                         <!--/*@thymesVar id="userDeleteForm" type="com.shopping.dessert.dto.UserDto.Request.UserDeleteForm"*/-->
+                        <!--/*@thymesVar id="email" type="String"*/-->
                         <!--/*@thymesVar id="password" type="String"*/-->
                         <!--/*@thymesVar id="deleteFailure" type="String"*/-->
                         <form th:action="@{/users/delete}" th:object="${userDeleteForm}" method="post">

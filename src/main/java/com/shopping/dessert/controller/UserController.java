@@ -32,14 +32,13 @@ public class UserController {
     }
 
     @GetMapping("/myinfo")
-    public String getUserInfo(Model model, @AuthenticationPrincipal PrincipalDetails principalDetails){
-        UserEntity userEntity = principalDetails.getUserEntity();
+    public String getUserInfo(Model model, @CurrentUser UserEntity userEntity){
         model.addAttribute("myInfoUpdateForm", Request.MyInfoUpdateForm.of(userEntity));
         return "user/myinfo";
     }
 
     @PostMapping("/myinfo")
-    public String updateUserMyInfo(@Valid Request.MyInfoUpdateForm myInfoUpdateForm, BindingResult result, Model model){
+    public String updateUserMyInfo(@Valid @RequestBody Request.MyInfoUpdateForm myInfoUpdateForm, BindingResult result, Model model){
 
         //validation
         if (!myInfoUpdateForm.getPassword().equals(myInfoUpdateForm.getPasswordConfirm())){
@@ -59,13 +58,13 @@ public class UserController {
 
 
     @GetMapping("/delete")
-    public String deleteUser(Model model){
-        model.addAttribute("deleteForm", new Request.UserDeleteForm());
+    public String getDeleteUserForm(Model model){
+        model.addAttribute("userDeleteForm", new Request.UserDeleteForm());
         return "user/delete";
     }
 
     @PostMapping("/delete")
-    public String deleteUser(@Valid UserDto.Request.UserDeleteForm userDeleteForm, BindingResult result, Model model, @CurrentUser UserEntity userEntity){
+    public String deleteUser(@Valid @RequestBody UserDto.Request.UserDeleteForm userDeleteForm, BindingResult result, Model model, @CurrentUser UserEntity userEntity){
 
         if (result.hasErrors()){
             model.addAttribute("deleteForm", userDeleteForm);
@@ -73,7 +72,7 @@ public class UserController {
         }
 
         try {
-            userService.delete(userDeleteForm,userEntity);
+            userService.delete(userDeleteForm);
         } catch (Exception e){
             System.out.println(e.getMessage());
             result.reject("deleteFailure", e.getMessage());

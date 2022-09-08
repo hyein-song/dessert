@@ -105,6 +105,9 @@ public class UserDto {
         }
 
         @Data
+        @Builder
+        @NoArgsConstructor
+        @AllArgsConstructor
         public static class UserDeleteForm {
 
             @NotBlank(message = "이메일은 필수 입력 값입니다.")

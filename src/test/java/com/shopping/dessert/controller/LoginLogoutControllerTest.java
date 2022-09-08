@@ -21,7 +21,7 @@ import static org.springframework.security.test.web.servlet.response.SecurityMoc
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@SpringBootTest()
+@SpringBootTest
 @AutoConfigureMockMvc
 @Import(SecurityConfig.class)
 public class LoginLogoutControllerTest {
