@@ -27,7 +27,7 @@ public class ProductController {
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/add")
     public String addProduct(Model model){
-        model.addAttribute("addForm",new ProductDto.Request.ProductAddForm());
+        model.addAttribute("productAddForm",new ProductDto.Request.ProductAddForm());
         return "product/add";
     }
 
