@@ -14,19 +14,25 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
+import org.springframework.data.domain.*;
 import org.springframework.data.jpa.mapping.JpaMetamodelMappingContext;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.doReturn;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 
@@ -60,7 +66,6 @@ class ProductControllerTest {
 
     @Test
     @WithMockUser(roles = "ADMIN")
-    @Transactional
     void testAddProduct() throws Exception {
 
         ProductDto.Request.ProductAddForm productAddForm = ProductDto.Request.ProductAddForm
@@ -81,28 +86,103 @@ class ProductControllerTest {
                 .with(csrf()))
                 .andExpect(status().is3xxRedirection());
 
+    }
 
+    @Test
+    @WithMockUser(roles = "ADMIN")
+    void updateProduct() throws Exception {
+        Long productId = 1L;
+        ProductDto.ProductDetail productDetail = ProductDto.ProductDetail.builder().build();
 
+        doReturn(productDetail).when(productService).getProductDetail(productId);
 
+        mockMvc.perform(get("/products/update/{productId}",productId))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(view().name("product/update"));
     }
 //
-//    @Test
-//    void updateProduct() {
-//    }
-//
-//    @Test
-//    void testUpdateProduct() {
-//    }
-//
-//    @Test
-//    void deleteProduct() {
-//    }
-//
-//    @Test
-//    void getProductList() {
-//    }
-//
-//    @Test
-//    void getProductDetail() {
-//    }
+    @Test
+    @WithMockUser(roles = "ADMIN")
+    void testUpdateProduct() throws Exception{
+        Long productId = 1L;
+        ProductDto.ProductDetail productDetail = ProductDto.ProductDetail
+                .builder()
+                .name("테스트상품")
+                .amount(20L)
+                .price(100L)
+                .content("상품 상세설명")
+                .build();
+
+        doReturn(Optional.empty()).when(productService).getProductByName(productDetail.getName());
+        doNothing().when(productService).updateProduct(productDetail);
+
+        mockMvc.perform(post("/products/update/{productId}",productId)
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(productDetail))
+                .with(csrf()))
+                .andExpect(status().is3xxRedirection());
+
+}
+
+    @Test
+    @WithMockUser(roles = "ADMIN")
+    void deleteProduct() throws Exception {
+
+        Long productId = 1L;
+        doNothing().when(productService).deleteProduct(productId);
+
+        mockMvc.perform(get("/products/delete/{productId}",productId))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/"));
+
+    }
+
+    @Test
+    void getProductList() throws Exception {
+
+        ProductDto.ProductDetail productDetail = ProductDto.ProductDetail
+                .builder()
+                .productId(1L)
+                .name("테스트상품")
+                .amount(20L)
+                .price(100L)
+                .content("상품 상세설명")
+                .build();
+
+        List<ProductDto.ProductDetail> detailList = new ArrayList<>();
+        detailList.add(productDetail);
+
+        Pageable pageable =  PageRequest.of(3, 3);
+        Page<ProductDto.ProductDetail> productDetails = new PageImpl<>(detailList,pageable,100);
+
+        doReturn(productDetails).when(productService).getProductList(any(Pageable.class));
+
+        mockMvc.perform(get("/products/list"))
+                .andExpect(status().isOk())
+                .andExpect(model().attributeExists("productDetails"))
+                .andExpect(view().name("product/list"));
+
+    }
+
+    @Test
+    void getProductDetail() throws Exception {
+        Long productId = 1L;
+        ProductDto.ProductDetail productDetail = ProductDto.ProductDetail
+                .builder()
+                .productId(1L)
+                .name("테스트상품")
+                .amount(20L)
+                .price(100L)
+                .content("상품 상세설명")
+                .build();
+
+        doReturn(productDetail).when(productService).getProductDetail(productId);
+
+        mockMvc.perform(get("/products/{productId}",productId))
+                .andExpect(status().isOk())
+                .andExpect(model().attributeExists("productDetail","cartAddForm"))
+                .andExpect(view().name("product/detail"));
+    }
 }

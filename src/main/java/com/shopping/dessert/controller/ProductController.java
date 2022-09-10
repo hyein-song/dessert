@@ -6,7 +6,9 @@ import com.shopping.dessert.entity.ProductEntity;
 import com.shopping.dessert.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -55,7 +57,7 @@ public class ProductController {
     public String updateProduct(@PathVariable Long productId, Model model){
         ProductDto.ProductDetail productDetail = productService.getProductDetail(productId);
 
-        model.addAttribute("detail", productDetail);
+        model.addAttribute("productDetail", productDetail);
         return "product/update";
     }
 
@@ -69,7 +71,7 @@ public class ProductController {
         }
 
         if (result.hasErrors()){
-            model.addAttribute("detail", productDetail);
+            model.addAttribute("productDetail", productDetail);
             return "product/update";
         }
 
@@ -88,8 +90,8 @@ public class ProductController {
 
     @GetMapping("/list")
     public String getProductList(Model model, Pageable pageable){
-        Page<ProductDto.ProductDetail> products = productService.getProductList(pageable);
-        model.addAttribute("products",products);
+        Page<ProductDto.ProductDetail> productDetails = productService.getProductList(pageable);
+        model.addAttribute("productDetails",productDetails);
         return "product/list";
 
     }

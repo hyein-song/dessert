@@ -14,6 +14,8 @@ public class ProductDto {
 
     @Data
     @Builder
+    @NoArgsConstructor
+    @AllArgsConstructor
     public static class ProductDetail {
 
         private Long productId;
