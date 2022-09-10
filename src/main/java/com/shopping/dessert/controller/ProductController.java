@@ -33,7 +33,7 @@ public class ProductController {
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping("/add")
-    public String addProduct(@Valid ProductDto.Request.ProductAddForm productAddForm, BindingResult result, Model model, RedirectAttributes re){
+    public String addProduct(@Valid @RequestBody ProductDto.Request.ProductAddForm productAddForm, BindingResult result, Model model, RedirectAttributes re){
 
         Optional<ProductEntity> productEntity = productService.getProductByName(productAddForm.getName());
 
@@ -42,7 +42,7 @@ public class ProductController {
         }
 
         if(result.hasErrors()){
-            model.addAttribute("addForm", productAddForm);
+            model.addAttribute("productAddForm", productAddForm);
             return "product/add";
         }
 
@@ -61,7 +61,7 @@ public class ProductController {
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping("/update/{productId}")
-    public String updateProduct(@PathVariable Long productId, @Valid ProductDto.ProductDetail productDetail, BindingResult result, Model model, RedirectAttributes re ){
+    public String updateProduct(@PathVariable Long productId, @Valid @RequestBody ProductDto.ProductDetail productDetail, BindingResult result, Model model, RedirectAttributes re ){
         Optional<ProductEntity> productEntity = productService.getProductByName(productDetail.getName());
 
         if (productEntity.isPresent() && !productEntity.get().getProductId().equals(productId)){

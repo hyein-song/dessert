@@ -51,6 +51,9 @@ public class ProductDto {
     public static class Request{
 
         @Data
+        @Builder
+        @NoArgsConstructor
+        @AllArgsConstructor
         public static class ProductAddForm {
 
             @NotBlank(message = "상품명을 입력하세요.")
