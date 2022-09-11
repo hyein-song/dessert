@@ -9,7 +9,6 @@ import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
@@ -26,16 +25,16 @@ public class OrderEntity extends BaseTimeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long orderId;
 
-    private Long amount;
+    private Long price;
 
     private Long count;
 
-    private String orderAddress;
-
+//    private String orderAddress;
+//
     private String orderState;
-
-    //TODO: ordernum 생성 알고리즘 필요
-    private String orderNum;
+//
+//    //TODO: ordernum 생성 알고리즘 필요
+//    private String orderNum;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @NotNull

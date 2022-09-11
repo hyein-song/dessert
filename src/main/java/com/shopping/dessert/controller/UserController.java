@@ -1,15 +1,11 @@
 package com.shopping.dessert.controller;
 
-import com.shopping.dessert.Custom.CurrentUser;
-import com.shopping.dessert.auth.PrincipalDetails;
-import com.shopping.dessert.auth.PrincipalDetailsService;
+import com.shopping.dessert.custom.CurrentUser;
 import com.shopping.dessert.dto.UserDto;
 import com.shopping.dessert.dto.UserDto.Request;
 import com.shopping.dessert.entity.UserEntity;
 import com.shopping.dessert.service.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;

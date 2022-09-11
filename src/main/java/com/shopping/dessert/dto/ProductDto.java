@@ -48,6 +48,17 @@ public class ProductDto {
                     .build();
         }
 
+        public ProductEntity toEntity(){
+            return ProductEntity
+                    .builder()
+                    .productId(this.getProductId())
+                    .name(this.getName())
+                    .price(this.getPrice())
+                    .content(this.getContent())
+                    .amount(this.getAmount())
+                    .build();
+        }
+
     }
 
     public static class Request{

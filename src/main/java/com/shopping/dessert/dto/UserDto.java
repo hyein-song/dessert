@@ -1,18 +1,11 @@
 package com.shopping.dessert.dto;
 
-import com.shopping.dessert.entity.CartEntity;
-import com.shopping.dessert.entity.OrderEntity;
-import com.shopping.dessert.entity.PostEntity;
 import com.shopping.dessert.entity.UserEntity;
 import com.shopping.dessert.entity.value.UserRole;
 import lombok.*;
 
-import javax.persistence.*;
-import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
-import java.util.LinkedHashSet;
-import java.util.Set;
 
 
 public class UserDto {
@@ -122,6 +115,34 @@ public class UserDto {
     }
 
     public static class Response{
+
+        @Data
+        @Builder
+        @NoArgsConstructor
+        @AllArgsConstructor
+        public static class UserDetailForOrder{
+
+            private String email;
+
+            private String name;
+
+            private String phone;
+
+            private String address;
+
+            private Long point;
+
+            public static UserDetailForOrder of(UserEntity userEntity){
+                return builder()
+                        .email(userEntity.getEmail())
+                        .name(userEntity.getName())
+                        .phone(userEntity.getPhone())
+                        .address(userEntity.getAddress())
+                        .point(userEntity.getPoint())
+                        .build();
+            }
+
+        }
 
     }
 }

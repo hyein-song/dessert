@@ -34,7 +34,6 @@ public class CartDto {
             private Long totalPrice;
             private ProductDto.ProductDetail productDetail;
 
-
             public static CartDetailForm of(CartEntity cart){
                 return builder()
                         .cartId(cart.getCartId())
