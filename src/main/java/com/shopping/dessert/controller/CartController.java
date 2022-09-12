@@ -21,7 +21,7 @@ public class CartController {
     private final CartService cartService;
 
     @PostMapping("/add")
-    public String addToCart(@Valid @RequestBody CartDto.Response.CartAddForm cartAddForm, BindingResult result, @CurrentUser UserEntity currentUser, Model model){
+    public String addToCart(@Valid CartDto.Response.CartAddForm cartAddForm, BindingResult result, @CurrentUser UserEntity currentUser, Model model){
         System.out.println(cartAddForm);
         if (currentUser == null){
             return "redirect:/account/login";
@@ -33,10 +33,10 @@ public class CartController {
         }
 
         cartService.addToCart(cartAddForm, currentUser);
-        return "redirect:/carts";
+        return "redirect:/carts/list";
     }
 
-    @GetMapping
+    @GetMapping("/list")
     public String getCartList(@CurrentUser UserEntity currentUser, Model model){
         if (currentUser == null){
             return "redirect:/account/login";
@@ -50,9 +50,7 @@ public class CartController {
     @PostMapping("/delete/{cartId}")
     public String deleteFromCart(@PathVariable Long cartId){
         cartService.deleteFromCart(cartId);
-        return "redirect:/carts";
+        return "redirect:/carts/list";
     }
-
-
 
 }

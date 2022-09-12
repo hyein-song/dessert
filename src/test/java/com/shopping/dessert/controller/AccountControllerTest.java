@@ -71,7 +71,7 @@ class AccountControllerTest {
         mockMvc.perform(post("/account/register")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(registerForm))
-                        .accept(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_FORM_URLENCODED)
                         .characterEncoding("UTF-8")
                         .with(csrf())
                         .with(anonymous()))

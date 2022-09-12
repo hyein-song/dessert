@@ -25,7 +25,7 @@ public class OrderDto {
         long itemsPriceSum;
         int shippingPrice;
         long totalPrice;
-        List<CartDto.Response.CartDetailForm> cartItems;
+        String payment;
 
     }
 

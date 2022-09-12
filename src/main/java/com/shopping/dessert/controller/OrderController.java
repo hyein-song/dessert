@@ -7,6 +7,7 @@ import com.shopping.dessert.dto.UserDto;
 import com.shopping.dessert.entity.OrderEntity;
 import com.shopping.dessert.entity.OrderProductEntity;
 import com.shopping.dessert.entity.UserEntity;
+import com.shopping.dessert.service.CartService;
 import com.shopping.dessert.service.OrderService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -24,10 +25,11 @@ import java.util.stream.Collectors;
 public class OrderController {
 
     private final OrderService orderService;
+    private final CartService cartService;
 
     @GetMapping("/proc")
-    public String orderProc(List<CartDto.Response.CartDetailForm> cartItems, Model model, @CurrentUser UserEntity userEntity){
-
+    public String orderProc(Model model, @CurrentUser UserEntity userEntity){
+        List<CartDto.Response.CartDetailForm> cartItems = cartService.getCartlist(userEntity);
         long itemsPrice = cartItems.stream().mapToLong(CartDto.Response.CartDetailForm::getTotalPrice).sum();
         int shippingPrice = itemsPrice > 50000L ? 0 : 3000; // 5만원 이상 무료배송
 
@@ -36,9 +38,8 @@ public class OrderController {
                 .itemsPriceSum(itemsPrice)
                 .shippingPrice(shippingPrice)
                 .totalPrice(itemsPrice+shippingPrice)
-                .cartItems(cartItems)
                 .build();
-
+        model.addAttribute("cartItems",cartItems);
         model.addAttribute("orderProcDto",orderProcDto);
         model.addAttribute("user", UserDto.Response.UserDetailForOrder.of(userEntity));
         return "order/proc";
@@ -46,13 +47,17 @@ public class OrderController {
 
 
     @PostMapping("/add")
-    public String addOrder(@RequestBody OrderDto.OrderProcDto orderProcDto, BindingResult result, @CurrentUser UserEntity userEntity){
+    public String addOrder(OrderDto.OrderProcDto orderProcDto, BindingResult result, @CurrentUser UserEntity userEntity){
+
+        List<CartDto.Response.CartDetailForm> cartItems = cartService.getCartlist(userEntity);
+        System.out.println(orderProcDto);
         // 에러시
         if (result.hasErrors()){
-            return "carts/list";
+            return "redirect:/carts/list";
         }
 
-        orderService.addOrder(orderProcDto, userEntity.getUserId());
+        orderService.addOrder(orderProcDto, cartItems, userEntity.getUserId());
+        // TODO: 장바구니 비우기
         return "order/orderSuccess";
     }
 

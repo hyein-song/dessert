@@ -24,7 +24,7 @@ public class AccountController {
     }
 
     @PostMapping("/register")
-    public String register(@Valid @RequestBody UserDto.Request.RegisterForm registerForm, BindingResult result, Model model){
+    public String register(@Valid UserDto.Request.RegisterForm registerForm, BindingResult result, Model model){
 
 //        System.out.println(registerForm.getPassword());
         if (!registerForm.getPassword().equals(registerForm.getPasswordConfirm())){

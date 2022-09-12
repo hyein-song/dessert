@@ -34,7 +34,7 @@ public class UserController {
     }
 
     @PostMapping("/myinfo")
-    public String updateUserMyInfo(@Valid @RequestBody Request.MyInfoUpdateForm myInfoUpdateForm, BindingResult result, Model model){
+    public String updateUserMyInfo(@Valid Request.MyInfoUpdateForm myInfoUpdateForm, BindingResult result, Model model){
 
         //validation
         if (!myInfoUpdateForm.getPassword().equals(myInfoUpdateForm.getPasswordConfirm())){
@@ -60,7 +60,7 @@ public class UserController {
     }
 
     @PostMapping("/delete")
-    public String deleteUser(@Valid @RequestBody UserDto.Request.UserDeleteForm userDeleteForm, BindingResult result, Model model, @CurrentUser UserEntity userEntity){
+    public String deleteUser(@Valid UserDto.Request.UserDeleteForm userDeleteForm, BindingResult result, Model model, @CurrentUser UserEntity userEntity){
 
         if (result.hasErrors()){
             model.addAttribute("deleteForm", userDeleteForm);

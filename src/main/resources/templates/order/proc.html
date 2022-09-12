@@ -14,7 +14,7 @@
         </div>
     </div>
     <!-- Page Header End -->
-    <form th:action="@{/orders/add}" method="post">
+<!--    <form th:action="@{/orders/add}" th:object="${orderProcDto}"  method="post">-->
         <!-- Checkout Start -->
         <div class="container-fluid pt-5">
             <div class="row px-xl-5">
@@ -23,21 +23,21 @@
                         <thead class="bg-secondary text-dark">
                         <tr>
                             <th>제품</th>
-                            <th>가격</th>
+                            <th>개당 가격</th>
                             <th>수량</th>
-                            <th>가격</th>
+                            <th>상품 가격</th>
                         </tr>
                         </thead>
                         <tbody class="align-middle">
-                        <div th:if="${orderProcDto?.cartItems.size()} > 0 ">
-                            <div th:each="item : ${orderProcDto?.cartItems}">
+                        <div th:if="${cartItems.size()} > 0 ">
+                            <div th:each="item : ${cartItems}">
                                 <!--/*@thymesVar id="item" type="com.shopping.dessert.dto.CartDto.Response.CartDetailForm"*/-->
                                 <!--/*@thymesVar id="name" type="String"*/-->
                                 <tr>
-                                    <td class="align-middle" th:text="${item?.productDetail?.name}"><img src="img/product-1.jpg" alt="" style="width: 50px;">상품 이름</td>
-                                    <td class="align-middle" th:text="${item?.productDetail?.price}">상품가격</td>
+                                    <td class="align-middle" th:text="${item?.productDetail.name}"><img src="img/product-1.jpg" alt="" style="width: 50px;">상품 이름</td>
+                                    <td class="align-middle" th:text="${item?.productDetail?.price}">개당 가격</td>
                                     <td class="align-middle" th:text="${item?.amount}">상품 수량</td>
-                                    <td class="align-middle" th:text="${item?.totalPrice}">총 가격</td>
+                                    <td class="align-middle" th:text="${item?.totalPrice}">상품 가격</td>
                                 </tr>
                             </div>
                         </div>
@@ -50,21 +50,21 @@
                         <h4 class="font-weight-semi-bold mb-4">주문자 정보</h4>
                         <div class="row">
                             <div class="col-md-6 form-group">
-                                <label>이름</label>
-                                <input class="form-control" type="text" th:text="${user.name}">
+                                <label th:for="name">이름</label>
+                                <input name="name" class="form-control" type="text" th:value="${user.name}">
                             </div>
                             <div class="col-md-6 form-group">
-                                <label>이메일</label>
-                                <input class="form-control" type="text" th:text="${user.email}">
+                                <label th:for="email">이메일</label>
+                                <input name="email" class="form-control" type="text" th:value="${user.email}">
                             </div>
                             <div class="col-md-6 form-group">
-                                <label>핸드폰 번호</label>
-                                <input class="form-control" type="text" th:text="${user.phone}">
+                                <label th:for="phone">핸드폰 번호</label>
+                                <input name="phone" class="form-control" type="text" th:value="${user.phone}">
                             </div>
                             <div class="col-md-6 form-group">
-                                <label>주소</label>
-                                <label>
-                                    <input class="form-control" type="text" th:text="${user.address}">
+                                <label th:for="address">주소</label>
+                                <label th:name="address">
+                                    <input class="form-control" type="text" th:value="${user.address}">
                                 </label>
                             </div>
                             <!--                        <div class="col-md-12 form-group">-->
@@ -95,55 +95,61 @@
                     <!--                    </div>-->
                     <!--                </div>-->
                 </div>
-                <div class="col-lg-4">
-                    <div class="card border-secondary mb-5">
-                        <div class="card-header bg-secondary border-0">
-                            <h4 class="font-weight-semi-bold m-0">Order Total</h4>
-                        </div>
-                        <div class="card-body">
-                            <div class="d-flex justify-content-between mb-3 pt-1">
-                                <h6 class="font-weight-medium">제품 금액</h6>
-                                <h6 class="font-weight-medium" th:text="${orderProcDto.itemsPriceSum}"></h6>
-                            </div>
-                            <div class="d-flex justify-content-between">
-                                <h6 class="font-weight-medium">배송비</h6>
-                                <h6 class="font-weight-medium" th:text="${orderProcDto.shippingPrice}"></h6>
-                            </div>
-                        </div>
-                        <div class="card-footer border-secondary bg-transparent">
-                            <div class="d-flex justify-content-between mt-2">
-                                <h5 class="font-weight-bold">총 결제 금액</h5>
-                                <h5 class="font-weight-bold" th:text="${orderProcDto.totalPrice}"></h5>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card border-secondary mb-5">
-                        <div class="card-header bg-secondary border-0">
-                            <h4 class="font-weight-semi-bold m-0">결제 방법</h4>
-                        </div>
-                        <div class="card-body">
-                            <div class="form-group">
-                                <div class="custom-control custom-radio">
-                                    <input type="radio" class="custom-control-input" name="payment" id="directcheck">
-                                    <label class="custom-control-label" for="directcheck">카드 결제</label>
+                    <div class="col-lg-4">
+                        <form th:action="@{/orders/add}" th:object="${orderProcDto}"  method="post">
+                            <input type="hidden" name="itemsPriceSum" th:value="*{itemsPriceSum}">
+                            <input type="hidden" name="shippingPrice" th:value="*{shippingPrice}">
+                            <input type="hidden" name="totalPrice" th:value="*{totalPrice}">
+                            <div class="card border-secondary mb-5">
+                                <div class="card-header bg-secondary border-0">
+                                    <h4 class="font-weight-semi-bold m-0">Order Total</h4>
+                                </div>
+                                <div class="card-body">
+                                    <div class="d-flex justify-content-between mb-3 pt-1">
+                                        <h6 class="font-weight-medium">제품 금액</h6>
+                                        <h6 class="font-weight-medium" th:text="*{itemsPriceSum}"></h6>
+
+                                    </div>
+                                    <div class="d-flex justify-content-between">
+                                        <h6 class="font-weight-medium">배송비</h6>
+                                        <h6 class="font-weight-medium" th:text="*{shippingPrice}"></h6>
+                                    </div>
+                                </div>
+                                <div class="card-footer border-secondary bg-transparent">
+                                    <div class="d-flex justify-content-between mt-2">
+                                        <h5 class="font-weight-bold">총 결제 금액</h5>
+                                        <h5 class="font-weight-bold" th:text="*{totalPrice}"></h5>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="">
-                                <div class="custom-control custom-radio">
-                                    <input type="radio" class="custom-control-input" name="payment" id="banktransfer">
-                                    <label class="custom-control-label" for="banktransfer">무통장 입금</label>
+                            <div class="card border-secondary mb-5">
+                                <div class="card-header bg-secondary border-0">
+                                    <h4 class="font-weight-semi-bold m-0">결제 방법</h4>
+                                </div>
+                                <div class="card-body">
+                                    <div class="form-group">
+                                        <div class="custom-control custom-radio">
+                                            <input type="radio" class="custom-control-input" name="payment" id="directcheck" value="directcheck">
+                                            <label class="custom-control-label" for="directcheck">카드 결제</label>
+                                        </div>
+                                    </div>
+                                    <div class="">
+                                        <div class="custom-control custom-radio">
+                                            <input type="radio" class="custom-control-input" name="payment" id="banktransfer" value="banktransfer">
+                                            <label class="custom-control-label" for="banktransfer">무통장 입금</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-footer border-secondary bg-transparent">
+                                    <button class="btn btn-lg btn-block btn-primary font-weight-bold my-3 py-3" type="submit">주문하기</button>
                                 </div>
                             </div>
-                        </div>
-                        <div class="card-footer border-secondary bg-transparent">
-                            <button class="btn btn-lg btn-block btn-primary font-weight-bold my-3 py-3" type="submit">주문하기</button>
-                        </div>
+                        </form>
                     </div>
-                </div>
             </div>
         </div>
         <!-- Checkout End -->
-    </form>
+<!--    </form>-->
 
 
 </div>

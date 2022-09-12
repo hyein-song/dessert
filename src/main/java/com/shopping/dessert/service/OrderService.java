@@ -27,7 +27,7 @@ public class OrderService {
     private final UserRepository userRepository;
 
     @Transactional
-    public void addOrder(OrderDto.OrderProcDto orderProcDto, Long userId){
+    public void addOrder(OrderDto.OrderProcDto orderProcDto, List<CartDto.Response.CartDetailForm> cartItems, Long userId){
 
         // 회원 조회
         UserEntity user = userRepository.findById(userId).orElseThrow(()->{
@@ -39,14 +39,14 @@ public class OrderService {
                 .builder()
                 .user(user)
                 .price(orderProcDto.getTotalPrice())
-                .count((long) orderProcDto.getCartItems().size())
+                .count((long) cartItems.size())
                 .orderState("정상")
                 .build();
 
         OrderEntity savedOrder = orderRepository.save(order);
 
         // orderProduct 저장
-        for (CartDto.Response.CartDetailForm cartDetailForm : orderProcDto.getCartItems()){
+        for (CartDto.Response.CartDetailForm cartDetailForm : cartItems){
             OrderProductEntity orderProductEntity = OrderProductEntity
                     .builder()
                     .product(cartDetailForm.getProductDetail().toEntity())

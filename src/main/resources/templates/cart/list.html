@@ -52,15 +52,15 @@
                         </div>
                     </div>
                     </tbody>
-                    <div th:unless="${cartItems.size()} > 0 ">
-                        <h5 class="font-weight-semi-bold text-uppercase mb-3">장바구니가 비어있습니다.</h5>
-                    </div>
                 </table>
+                <div th:unless="${cartItems.size()} > 0 ">
+                    <h5 class="font-weight-semi-bold text-uppercase mb-3">장바구니가 비어있습니다.</h5>
+                </div>
             </div>
             <div class="col-lg-4">
                 <div class="card border-secondary mb-5">
                     <div class="card-footer border-secondary bg-transparent">
-                        <button class="btn btn-block btn-primary my-3 py-3" th:href="@{/orders/proc(cartItems=${cartItems})}">주문하기</button>
+                        <a class="btn btn-block btn-primary my-3 py-3" th:href="@{/orders/proc}">주문하기</a>
                     </div>
                 </div>
             </div>
