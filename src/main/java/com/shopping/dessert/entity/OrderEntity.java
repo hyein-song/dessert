@@ -25,9 +25,12 @@ public class OrderEntity extends BaseTimeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long orderId;
 
-    private Long price;
+    private Long itemsPriceSum;
+    private Integer shippingPrice;
+    private Long totalPrice;
+    String payment;
 
-    private Long count;
+    private Long amount;
 
 //    private String orderAddress;
 //

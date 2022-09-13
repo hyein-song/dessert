@@ -23,6 +23,12 @@ public class OrderProductEntity extends BaseTimeEntity{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long orderProductId;
 
+    //개수
+    private Long amount;
+
+    //상품 개수 * 개당 가격
+    private Long totalPrice;
+
     @ManyToOne
     @NotNull
     @JoinColumn(name= "orderId")

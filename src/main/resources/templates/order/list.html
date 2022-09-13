@@ -36,9 +36,9 @@
                     <div th:if="${orderList.size()} > 0 ">
                         <div th:each="order : ${orderList}">
                             <tr>
-                                <td class="align-middle" th:text="${order.orderId}"><img src="img/product-1.jpg" alt="" style="width: 50px;" th:href="@{/}">주문 아이디</td>
+                                <td class="align-middle" ><a th:text="${order.orderId}" th:href="@{/orders/{orderId} (orderId=${order.orderId})}"></a><img src="img/product-1.jpg" alt="" style="width: 50px;" ></td>
                                 <td class="align-middle" th:text="${order.price}">총 가격</td>
-                                <td class="align-middle" th:text="${order.count}">총 수량</td>
+                                <td class="align-middle" th:text="${order.amount}">총 수량</td>
                                 <td class="align-middle" th:text="${order.orderState}">주문 상태</td>
                             </tr>
                         </div>

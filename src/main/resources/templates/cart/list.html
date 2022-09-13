@@ -40,7 +40,7 @@
                             <!--/*@thymesVar id="name" type="String"*/-->
                             <form th:action="@{/carts/delete/{cartId} (cartId=${item.cartId})}" th:method="post">
                                 <tr>
-                                    <td class="align-middle" th:text="${item.productDetail.name}"><img src="img/product-1.jpg" alt="" style="width: 50px;">상품 이름</td>
+                                    <td class="align-middle" ><a th:text="${item?.productDetail.name}" th:href="@{/products/{productId} (productId=${item.productDetail.productId})}"></a><img src="img/product-1.jpg" alt="" style="width: 50px;"></td>
                                     <td class="align-middle" th:text="${item.productDetail.price}">상품가격</td>
                                     <td class="align-middle" th:text="${item.amount}">상품 수량</td>
                                     <td class="align-middle" th:text="${item.totalPrice}">총 가격</td>

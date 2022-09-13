@@ -27,10 +27,10 @@ public class OrderService {
     private final UserRepository userRepository;
 
     @Transactional
-    public void addOrder(OrderDto.OrderProcDto orderProcDto, List<CartDto.Response.CartDetailForm> cartItems, Long userId){
+    public Long addOrder(OrderDto.OrderProcDto orderProcDto, List<CartDto.Response.CartDetailForm> cartItems, Long userId) {
 
         // 회원 조회
-        UserEntity user = userRepository.findById(userId).orElseThrow(()->{
+        UserEntity user = userRepository.findById(userId).orElseThrow(() -> {
             throw new IllegalStateException("해당 Id의 회원이 존재하지 않습니다.");
         });
 
@@ -38,35 +38,53 @@ public class OrderService {
         OrderEntity order = OrderEntity
                 .builder()
                 .user(user)
-                .price(orderProcDto.getTotalPrice())
-                .count((long) cartItems.size())
+                .itemsPriceSum(orderProcDto.getItemsPriceSum())
+                .shippingPrice(orderProcDto.getShippingPrice())
+                .totalPrice(orderProcDto.getTotalPrice())
+                .payment(orderProcDto.getPayment())
+                .amount((long) cartItems.size())
                 .orderState("정상")
                 .build();
 
         OrderEntity savedOrder = orderRepository.save(order);
 
         // orderProduct 저장
-        for (CartDto.Response.CartDetailForm cartDetailForm : cartItems){
+        for (CartDto.Response.CartDetailForm cartDetailForm : cartItems) {
             OrderProductEntity orderProductEntity = OrderProductEntity
                     .builder()
                     .product(cartDetailForm.getProductDetail().toEntity())
+                    .amount(cartDetailForm.getAmount())
+                    .totalPrice(cartDetailForm.getTotalPrice())
                     .order(savedOrder)
                     .build();
 
             orderProductRepository.save(orderProductEntity);
         }
+
+        return savedOrder.getOrderId();
+
     }
 
     @Transactional
-    public Set<OrderDto.OrderProductDetail> getOrderProductList(Long orderId){
-        OrderEntity order = orderRepository.findById(orderId).orElseThrow(()->{
+    public OrderDto.OrderDetail getOrderDetail(Long orderId) {
+        OrderEntity order = orderRepository.findById(orderId).orElseThrow(() -> {
             throw new IllegalStateException("해당 아이디의 주문이 존재하지 않습니다.");
         });
 
-        return order.getOrderProductEntities()
-                .stream()
-                .map(OrderDto.OrderProductDetail::of)
-                .collect(Collectors.toSet());
+        Set<OrderDto.OrderProductDetail> productDetails =
+                orderProductRepository.findByOrder(order)
+                        .stream()
+                        .map(OrderDto.OrderProductDetail::of)
+                        .collect(Collectors.toSet());
+
+        return OrderDto.OrderDetail.of(order,productDetails);
+
+    }
+
+    public List<OrderDto.OrderListForm> getOrderList(UserEntity user) {
+        List<OrderEntity> orderEntities = orderRepository.findByUser(user);
+
+        return orderEntities.stream().map(OrderDto.OrderListForm::of).collect(Collectors.toList());
 
     }
 }

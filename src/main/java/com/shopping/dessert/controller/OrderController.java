@@ -39,6 +39,7 @@ public class OrderController {
                 .shippingPrice(shippingPrice)
                 .totalPrice(itemsPrice+shippingPrice)
                 .build();
+
         model.addAttribute("cartItems",cartItems);
         model.addAttribute("orderProcDto",orderProcDto);
         model.addAttribute("user", UserDto.Response.UserDetailForOrder.of(userEntity));
@@ -47,7 +48,9 @@ public class OrderController {
 
 
     @PostMapping("/add")
-    public String addOrder(OrderDto.OrderProcDto orderProcDto, BindingResult result, @CurrentUser UserEntity userEntity){
+    public String addOrder(OrderDto.OrderProcDto orderProcDto, BindingResult result, @CurrentUser UserEntity userEntity, Model model){
+
+        // TODO:  결제방법 없거나 정보 없으면 다시 뷰로 넘기기
 
         List<CartDto.Response.CartDetailForm> cartItems = cartService.getCartlist(userEntity);
         System.out.println(orderProcDto);
@@ -55,24 +58,30 @@ public class OrderController {
         if (result.hasErrors()){
             return "redirect:/carts/list";
         }
+        // TODO: 결제 방법에 따라 페이지 나뉘기
 
-        orderService.addOrder(orderProcDto, cartItems, userEntity.getUserId());
-        // TODO: 장바구니 비우기
+        Long orderId = orderService.addOrder(orderProcDto, cartItems, userEntity.getUserId());
+
+        //장바구니 비우기
+        for(CartDto.Response.CartDetailForm cartItem : cartItems){
+            cartService.deleteFromCart(cartItem.getCartId());
+        }
+
+        model.addAttribute("orderId",orderId);
         return "order/orderSuccess";
     }
 
     @GetMapping("/list")
     public String getOrdersList(@CurrentUser UserEntity userEntity, Model model){
-        // user 세션 값 가져오는게 아니고 조회해서 가져와야될듯??
-        System.out.println(userEntity.getOrderEntities());
-        model.addAttribute("orderList",userEntity.getOrderEntities().stream().map(OrderDto.OrderDetail::of).collect(Collectors.toList()));
+        model.addAttribute("orderList",orderService.getOrderList(userEntity));
         return "order/list";
     }
 
     @GetMapping("/{orderId}")
-    public String getOrderProductList(@PathVariable Long orderId, Model model){
-        Set<OrderDto.OrderProductDetail> orderProductList = orderService.getOrderProductList(orderId);
-        model.addAttribute("orderProductList",orderProductList);
+    public String getOrderProductList(@PathVariable Long orderId, @CurrentUser UserEntity userEntity, Model model){
+        OrderDto.OrderDetail order = orderService.getOrderDetail(orderId);
+        model.addAttribute("order",order);
+        model.addAttribute("user", UserDto.Response.UserDetailForOrder.of(userEntity));
         return "order/detail";
     }
 }
