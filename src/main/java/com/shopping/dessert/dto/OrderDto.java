@@ -7,6 +7,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -18,9 +20,13 @@ public class OrderDto {
     @NoArgsConstructor
     public static class OrderProcDto{
 
+        @NotNull
         private Long itemsPriceSum;
+        @NotNull
         private Integer shippingPrice;
+        @NotNull
         private Long totalPrice;
+        @NotBlank
         private String payment;
 
     }

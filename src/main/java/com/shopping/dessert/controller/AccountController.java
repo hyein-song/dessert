@@ -25,8 +25,6 @@ public class AccountController {
 
     @PostMapping("/register")
     public String register(@Valid UserDto.Request.RegisterForm registerForm, BindingResult result, Model model){
-
-//        System.out.println(registerForm.getPassword());
         if (!registerForm.getPassword().equals(registerForm.getPasswordConfirm())){
             result.rejectValue("passwordConfirm","passwordIncorrect", "비밀번호가 일치하지 않습니다.");
         }

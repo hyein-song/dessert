@@ -15,6 +15,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -48,12 +49,9 @@ public class OrderController {
 
 
     @PostMapping("/add")
-    public String addOrder(OrderDto.OrderProcDto orderProcDto, BindingResult result, @CurrentUser UserEntity userEntity, Model model){
-
-        // TODO:  결제방법 없거나 정보 없으면 다시 뷰로 넘기기
-
+    public String addOrder(@Valid OrderDto.OrderProcDto orderProcDto, BindingResult result, @CurrentUser UserEntity userEntity, Model model){
         List<CartDto.Response.CartDetailForm> cartItems = cartService.getCartlist(userEntity);
-        System.out.println(orderProcDto);
+
         // 에러시
         if (result.hasErrors()){
             return "redirect:/carts/list";

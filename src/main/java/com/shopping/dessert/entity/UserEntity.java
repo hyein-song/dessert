@@ -1,5 +1,6 @@
 package com.shopping.dessert.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.shopping.dessert.dto.UserDto;
 import com.shopping.dessert.entity.value.UserRole;
 import lombok.*;
