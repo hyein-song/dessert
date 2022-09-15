@@ -3,7 +3,12 @@ package com.shopping.dessert.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.shopping.dessert.config.SecurityConfig;
 import com.shopping.dessert.dto.UserDto;
+import com.shopping.dessert.entity.UserEntity;
+import com.shopping.dessert.entity.value.UserRole;
+import com.shopping.dessert.repository.UserRepository;
 import com.shopping.dessert.service.UserService;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -12,15 +17,22 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
 import org.springframework.data.jpa.mapping.JpaMetamodelMappingContext;
 import org.springframework.http.MediaType;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.test.context.support.TestExecutionEvent;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.security.test.context.support.WithUserDetails;
+import org.springframework.test.context.transaction.BeforeTransaction;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 
+import javax.annotation.PostConstruct;
+import javax.transaction.Transactional;
+
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.doReturn;
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.*;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.security.test.web.servlet.response.SecurityMockMvcResultMatchers.authenticated;
-import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -33,9 +45,6 @@ public class UserControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
-
-    @Autowired
-    private ObjectMapper objectMapper;
 
     @MockBean
     private UserService userService;
@@ -51,7 +60,7 @@ public class UserControllerTest {
     }
 
     @Test
-    @WithUserDetails(value = "test@google.com", userDetailsServiceBeanName = "principalDetailsService")
+    @WithUserDetails(value = "test@google.com", setupBefore = TestExecutionEvent.TEST_EXECUTION, userDetailsServiceBeanName = "principalDetailsService")
     void getUserInfo() throws Exception{
 
         mockMvc.perform(get("/users/myinfo"))
@@ -64,23 +73,22 @@ public class UserControllerTest {
     @Test
     @WithMockUser
     void updateUserMyInfo() throws Exception {
+        // given
+        MultiValueMap<String,String> params = new LinkedMultiValueMap<>();
+        params.add("email","test@google.com");
+        params.add("name","홍길동");
+        params.add("phone","01012345678");
+        params.add("address","서울");
+        params.add("password","Qwerty123!");
+        params.add("passwordConfirm","Qwerty123!");
 
-        UserDto.Request.MyInfoUpdateForm myInfoUpdateForm = UserDto.Request.MyInfoUpdateForm
-                .builder()
-                .email("test@google.com")
-                .name("홍길동")
-                .phone("01012345678")
-                .address("서울")
-                .password("Qwerty123!")
-                .passwordConfirm("Qwerty123!")
-                .build();
+        //mocking
+        doNothing().when(userService).updateMyInfo(any(UserDto.Request.MyInfoUpdateForm.class));
 
-        doNothing().when(userService).updateMyInfo(myInfoUpdateForm);
-
+        //when & then
         mockMvc.perform(post("/users/myinfo")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(myInfoUpdateForm))
-                .accept(MediaType.APPLICATION_JSON)
+                .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+                .params(params)
                 .characterEncoding("UTF-8")
                 .with(csrf()))
                 .andExpect(model().errorCount(0))
@@ -88,9 +96,7 @@ public class UserControllerTest {
                 .andExpect(redirectedUrl("/users/myinfo"));
     }
 
-
     @Test
-//    @WithUserDetails(value = "test@google.com", userDetailsServiceBeanName = "principalDetailsService")
     @WithMockUser
     void getDeleteUserForm() throws Exception {
 
@@ -101,19 +107,18 @@ public class UserControllerTest {
     }
 
     @Test
-    @WithUserDetails(value = "test@google.com", userDetailsServiceBeanName = "principalDetailsService")
+    @WithUserDetails(value = "test@google.com", setupBefore = TestExecutionEvent.TEST_EXECUTION, userDetailsServiceBeanName = "principalDetailsService")
     void deleteUser() throws Exception {
 
-        UserDto.Request.UserDeleteForm deleteForm = UserDto.Request.UserDeleteForm
-                .builder()
-                .email("test@google.com")
-                .password("Qwerty123!").build();
+        MultiValueMap<String,String> params = new LinkedMultiValueMap<>();
+        params.add("email","test@google.com");
+        params.add("password","Qwerty123!");
 
-        doNothing().when(userService).delete(deleteForm);
+        doNothing().when(userService).delete(any(UserDto.Request.UserDeleteForm.class));
 
         mockMvc.perform(post("/users/delete")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(deleteForm))
+                .params(params)
                 .accept(MediaType.APPLICATION_JSON)
                 .with(csrf()))
                 .andExpect(model().errorCount(0))

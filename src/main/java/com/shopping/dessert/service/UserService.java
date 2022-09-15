@@ -39,15 +39,15 @@ public class UserService {
         userRepository.save(user);
     }
 
-    @Transactional
-    public UserDto.Request.MyInfoUpdateForm getMyInfo(UserEntity currentUser){
-        UserEntity user = userRepository.findByEmail(currentUser.getEmail()).orElseThrow(()->{
-            throw new IllegalStateException("해당 이메일의 유저가 존재하지 않습니다.");
-        });
-
-        return UserDto.Request.MyInfoUpdateForm.of(user);
-
-    }
+//    @Transactional
+//    public UserDto.Request.MyInfoUpdateForm getMyInfo(UserEntity currentUser){
+//        UserEntity user = userRepository.findByEmail(currentUser.getEmail()).orElseThrow(()->{
+//            throw new IllegalStateException("해당 이메일의 유저가 존재하지 않습니다.");
+//        });
+//
+//        return UserDto.Request.MyInfoUpdateForm.of(user);
+//
+//    }
 
     @Transactional
     public void updateMyInfo(UserDto.Request.MyInfoUpdateForm updateForm){
