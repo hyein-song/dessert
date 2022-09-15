@@ -19,6 +19,8 @@ import org.springframework.data.jpa.mapping.JpaMetamodelMappingContext;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 
 import javax.transaction.Transactional;
 import java.util.ArrayList;
@@ -68,21 +70,20 @@ class ProductControllerTest {
     @WithMockUser(roles = "ADMIN")
     void testAddProduct() throws Exception {
 
-        ProductDto.Request.ProductAddForm productAddForm = ProductDto.Request.ProductAddForm
-                .builder()
-                .name("테스트상품")
-                .amount(20L)
-                .price(100L)
-                .content("상품 상세설명")
-                .build();
+        MultiValueMap<String,String> params = new LinkedMultiValueMap<>();
+        params.add("name","테스트상품");
+        params.add("amount","20");
+        params.add("price","100");
+        params.add("content","상품 상세설명");
 
-        doReturn(Optional.empty()).when(productService).getProductByName(productAddForm.getName());
-        doReturn(1L).when(productService).addProduct(productAddForm);
+
+        doReturn(Optional.empty()).when(productService).getProductByName(any(String.class));
+        doReturn(1L).when(productService).addProduct(any(ProductDto.Request.ProductAddForm.class));
 
         mockMvc.perform(post("/products/add")
-                .contentType(MediaType.APPLICATION_JSON)
+                .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+                .params(params)
                 .accept(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(productAddForm))
                 .with(csrf()))
                 .andExpect(status().is3xxRedirection());
 

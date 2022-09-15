@@ -40,17 +40,17 @@ public class LoginLogoutControllerTest {
     @Transactional
     void login_Success() throws Exception{
 
-        UserDto.Request.RegisterForm registerForm = UserDto.Request.RegisterForm
-                .builder()
-                .email("test@google.com")
-                .name("홍길동")
-                .phone("01012345678")
-                .address("서울")
-                .password("Qwerty123!")
-                .passwordConfirm("Qwerty123!")
-                .build();
-
-        userService.register(registerForm);
+//        UserDto.Request.RegisterForm registerForm = UserDto.Request.RegisterForm
+//                .builder()
+//                .email("test@google.com")
+//                .name("홍길동")
+//                .phone("01012345678")
+//                .address("서울")
+//                .password("Qwerty123!")
+//                .passwordConfirm("Qwerty123!")
+//                .build();
+//
+//        userService.register(registerForm);
 
         mockMvc.perform(formLogin("/account/loginProc").user("email","test@google.com").password("Qwerty123!"))
                 .andExpect(authenticated())
