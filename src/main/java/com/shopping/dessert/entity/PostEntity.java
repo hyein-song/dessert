@@ -1,5 +1,6 @@
 package com.shopping.dessert.entity;
 
+import com.shopping.dessert.dto.PostDto;
 import com.shopping.dessert.entity.value.PostCategory;
 import com.sun.istack.NotNull;
 import lombok.AllArgsConstructor;
@@ -47,5 +48,11 @@ public class PostEntity extends BaseTimeEntity {
     @JoinColumn(name="productId")
     private ProductEntity product;
 
+    public void update(PostDto.PostUpdateForm updateForm, ProductEntity productEntity){
+        this.title = updateForm.getTitle();
+        this.content = updateForm.getContent();
+        this.category = updateForm.getCategory();
+        this.product = productEntity;
+    }
 
 }

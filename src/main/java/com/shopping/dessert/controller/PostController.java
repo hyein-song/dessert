@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -40,21 +41,23 @@ public class PostController {
             model.addAttribute("postAddForm", postAddForm);
             return "post/add";
         }
-        postService.addPost(postAddForm,user);
+        Long postId = postService.addPost(postAddForm,user);
 
-        re.addAttribute("productId",postAddForm.getProductId());
-        return "redirect:/products/{productId}";
+        re.addAttribute("postId",postId);
+        return "redirect:/posts/{postId}";
     }
+
     @PreAuthorize("hasRole('ROLE_USER')")
     @GetMapping("/myPostList")
     public String getMyPostsList(@CurrentUser UserEntity user, Model model, Pageable pageable){
 
-        Page<PostDto.PostDetail> postDetailPage = postService.getMyPostList(user, pageable);
-        model.addAttribute("postDetailPage",postDetailPage);
+        Page<PostDto.PostDetail> postList = postService.getMyPostList(user, pageable);
+        model.addAttribute("postList",postList);
 
         return "post/myPostList";
     }
 
+    @PreAuthorize("hasRole('ROLE_USER')")
     @GetMapping("/{postId}")
     public String getMyPostDetail(@PathVariable Long postId, Model model){
         PostDto.PostDetail postDetail = postService.getPostDetail(postId);
@@ -62,20 +65,47 @@ public class PostController {
         return "post/detail";
     }
 
-//    @PostMapping("/delete/{postId}")
-//    public String deletePost(@PathVariable Long postId){
-//
-//        return "";
-//    }
-//
-//    @PostMapping("/update/{postId}")
-//    public String updatePost(@PathVariable Long postId,  RedirectAttributes re){
-//
-//        postService.updatePost(postId);
-//
-//        re.addAttribute("postId",postId);
-//        return "redirect:/posts/{postId}";
-//    }
+    @PreAuthorize("hasRole('ROLE_USER')")
+    @GetMapping("/update/{postId}")
+    public String getUpdatePostForm(@PathVariable Long postId, Model model){
+
+        PostDto.PostDetail postDetail = postService.getPostDetail(postId);
+        PostDto.PostUpdateForm postUpdateForm = PostDto.PostUpdateForm
+                .builder()
+                .title(postDetail.getTitle())
+                .content(postDetail.getContent())
+                .category(postDetail.getCategory())
+                .postId(postDetail.getPostId())
+                .build();
+        model.addAttribute("postUpdateForm",postUpdateForm);
+        return "post/updateForm";
+    }
+
+
+
+    @PreAuthorize("hasRole('ROLE_USER')")
+    @PostMapping("/update/{postId}")
+    public String updatePost(@Valid PostDto.PostUpdateForm postUpdateForm, BindingResult result, Model model, @CurrentUser UserEntity user, RedirectAttributes re){
+
+        if (result.hasErrors()){
+            model.addAttribute("postUpdateForm",postUpdateForm);
+            return "post/updateForm";
+        }
+
+        postService.updatePost(postUpdateForm, user);
+
+        re.addAttribute("postId",postUpdateForm.getPostId());
+        return "redirect:/posts/{postId}";
+    }
+
+    @PreAuthorize("hasRole('ROLE_USER')")
+    @PostMapping("/delete/{postId}")
+    public String deletePost(@PathVariable Long postId, @CurrentUser UserEntity user){
+
+        postService.deletePost(postId,user);
+
+        return "post/deleteSuccess";
+    }
 
 
 }

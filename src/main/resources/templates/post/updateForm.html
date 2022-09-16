@@ -12,13 +12,12 @@
         <div class="row px-xl-5">
             <div class="col-lg-8">
                 <div class="mb-4 text-center">
-                    <h4 class="font-weight-semi-bold mb-4">글 작성</h4>
+                    <h4 class="font-weight-semi-bold mb-4">글 수정</h4>
                     <div class="text-center">
                         <!--/*@thymesVar id="productAddForm" type="com.shopping.dessert.dto.ProductDto.Request.ProductAddForm"*/-->
                         <!--/*@thymesVar id="name" type="String"*/-->
-                        <form th:action="@{/posts/add}" th:object="${postAddForm}" method="post">
+                        <form th:action="@{/posts/update/{postId} (postId=${postId})}" th:object="${postUpdateForm}" method="post">
                             <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
-                            <input type="hidden" name="productId" th:value="${postAddForm.productId}" />
                             <div class="col-md-6 form-group">
                                 <label th:for="title">제목</label>
                                 <input id="title" name="title" th:feild="*{title}" th:value="*{title}"  class="form-control" type="text" placeholder="제목" />
@@ -31,7 +30,6 @@
                             </div>
                             <div class="col-md-6 form-group">
                                 <label th:for="category">카테고리</label>
-<!--                                <input id="content" name="content" th:feild="*{content}" th:value="*{content}" class="form-control" type="text" placeholder="상품 상세 내용">-->
                                 <div class="form-group">
                                     <div class="custom-control custom-radio">
                                         <input type="radio" class="custom-control-input" name="category" id="review" value="review">
@@ -46,7 +44,7 @@
                                 </div>
                                 <span th:if="${#fields.hasErrors('category')}" th:errors="*{category}">category error</span>
                             </div>
-                            <button class="btn btn-lg btn-block btn-primary font-weight-bold my-3 py-3 form-control" type="submit">글 추가하기</button>
+                            <button class="btn btn-lg btn-block btn-primary font-weight-bold my-3 py-3 form-control" type="submit">글 수정하기</button>
                         </form>
                     </div>
                 </div>

@@ -22,7 +22,7 @@ public class PostService {
     private final PostRepository postRepository;
     private final ProductRepository productRepository;
     @Transactional
-    public void addPost(PostDto.PostAddForm postAddForm, UserEntity user){
+    public Long addPost(PostDto.PostAddForm postAddForm, UserEntity user){
 
         ProductEntity productEntity = productRepository.findByProductId(postAddForm.getProductId()).orElseThrow(()->{
             throw new IllegalStateException("해당 아이디의 제품이 없습니다.");
@@ -30,7 +30,9 @@ public class PostService {
 
         PostEntity postEntity = PostDto.PostAddForm.toEntity(postAddForm,productEntity,user);
 
-        postRepository.save(postEntity);
+        PostEntity savedPost = postRepository.save(postEntity);
+
+        return savedPost.getPostId();
     }
 
     @Transactional
@@ -47,6 +49,39 @@ public class PostService {
         });
 
         return PostDto.PostDetail.of(post);
+
+    }
+
+
+    public void updatePost(PostDto.PostUpdateForm postUpdateForm, UserEntity user){
+        PostEntity post = postRepository.findById(postUpdateForm.getPostId()).orElseThrow(()->{
+            throw new IllegalStateException("해당 id의 post가 존재하지 않습니다.");
+        });
+
+        if (!post.getUser().getEmail().equals(user.getEmail())){
+            throw new IllegalStateException("작성자가 아닙니다.");
+        }
+
+        ProductEntity productEntity = productRepository.findByProductId(postUpdateForm.getProductId()).orElseThrow(()->{
+            throw new IllegalStateException("해당 id의 product가 존재하지 않습니다.");
+        });
+
+
+
+        post.update(postUpdateForm, productEntity);
+
+    }
+
+    public void deletePost(Long postId, UserEntity user){
+        PostEntity post = postRepository.findById(postId).orElseThrow(()->{
+            throw new IllegalStateException("해당 id의 post가 존재하지 않습니다.");
+        });
+
+        if (!post.getUser().getEmail().equals(user.getEmail())){
+            throw new IllegalStateException("작성자가 아닙니다.");
+        }
+
+        postRepository.delete(post);
 
     }
 }

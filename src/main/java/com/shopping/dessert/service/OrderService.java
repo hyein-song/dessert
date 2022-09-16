@@ -10,6 +10,8 @@ import com.shopping.dessert.repository.OrderProductRepository;
 import com.shopping.dessert.repository.OrderRepository;
 import com.shopping.dessert.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -81,10 +83,10 @@ public class OrderService {
 
     }
 
-    public List<OrderDto.OrderListForm> getOrderList(UserEntity user) {
-        List<OrderEntity> orderEntities = orderRepository.findByUser(user);
+    public Page<OrderDto.OrderListForm> getOrderList(UserEntity user, Pageable pageable) {
+        Page<OrderEntity> orderEntities = orderRepository.findByUser(user, pageable);
 
-        return orderEntities.stream().map(OrderDto.OrderListForm::of).collect(Collectors.toList());
+        return orderEntities.map(OrderDto.OrderListForm::of);
 
     }
 }

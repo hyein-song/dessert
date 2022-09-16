@@ -10,6 +10,7 @@ import com.shopping.dessert.entity.UserEntity;
 import com.shopping.dessert.service.CartService;
 import com.shopping.dessert.service.OrderService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -70,8 +71,8 @@ public class OrderController {
     }
 
     @GetMapping("/list")
-    public String getOrdersList(@CurrentUser UserEntity userEntity, Model model){
-        model.addAttribute("orderList",orderService.getOrderList(userEntity));
+    public String getOrdersList(@CurrentUser UserEntity userEntity, Model model, Pageable pageable){
+        model.addAttribute("orderList",orderService.getOrderList(userEntity, pageable));
         return "order/list";
     }
 

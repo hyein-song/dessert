@@ -53,20 +53,39 @@ public class PostDto {
     @Builder
     @NoArgsConstructor
     @AllArgsConstructor
+    public static class PostUpdateForm{
+
+        private Long postId;
+
+        @NotBlank(message = "제목을 입력해주세요.")
+        private String title;
+
+        @NotBlank(message = "내용을 입력해주세요.")
+        private String content;
+
+        @NotNull
+        private PostCategory category;
+
+    }
+
+    @Data
+    @Builder
+    @NoArgsConstructor
+    @AllArgsConstructor
     public static class PostDetail {
 
+        private Long postId;
         private String title;
         private String content;
         private PostCategory category;
-        private String userName;
 //        private Set<ReplyDto> replyDtoSet;
 
         public static PostDetail of(PostEntity postEntity){
             return builder()
+                    .postId(postEntity.getPostId())
                     .title(postEntity.getTitle())
                     .content(postEntity.getContent())
                     .category(postEntity.getCategory())
-                    .userName(postEntity.getUser().getName())
                     .build();
 
         }
