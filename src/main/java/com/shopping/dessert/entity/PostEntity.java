@@ -9,6 +9,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
+import org.springframework.security.core.parameters.P;
 
 import javax.persistence.*;
 import java.util.LinkedHashSet;
@@ -48,11 +49,16 @@ public class PostEntity extends BaseTimeEntity {
     @JoinColumn(name="productId")
     private ProductEntity product;
 
-    public void update(PostDto.PostUpdateForm updateForm, ProductEntity productEntity){
+    public void update(PostDto.PostUpdateForm updateForm){
         this.title = updateForm.getTitle();
         this.content = updateForm.getContent();
-        this.category = updateForm.getCategory();
-        this.product = productEntity;
+
+        if (updateForm.getCategory().equals("review")){
+            this.category = PostCategory.REVIEW;
+        } else {
+            this.category = PostCategory.QUESTION;
+        }
+
     }
 
 }

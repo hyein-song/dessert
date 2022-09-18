@@ -28,13 +28,13 @@ public class PostDto {
         private String content;
 
         @NotNull
-        private PostCategory category;
+        private String category;
 
         private Long productId;
 
         public static PostEntity toEntity(PostAddForm postAddForm, ProductEntity productEntity, UserEntity user){
             PostCategory category1 = PostCategory.QUESTION;
-            if (postAddForm.getCategory().toString().equals("review")){
+            if (postAddForm.getCategory().equals("review")){
                 category1 = PostCategory.REVIEW;
             }
 
@@ -64,7 +64,7 @@ public class PostDto {
         private String content;
 
         @NotNull
-        private PostCategory category;
+        private String category;
 
     }
 
@@ -77,7 +77,7 @@ public class PostDto {
         private Long postId;
         private String title;
         private String content;
-        private PostCategory category;
+        private String category;
 //        private Set<ReplyDto> replyDtoSet;
 
         public static PostDetail of(PostEntity postEntity){
@@ -85,7 +85,7 @@ public class PostDto {
                     .postId(postEntity.getPostId())
                     .title(postEntity.getTitle())
                     .content(postEntity.getContent())
-                    .category(postEntity.getCategory())
+                    .category(postEntity.getCategory().toString())
                     .build();
 
         }

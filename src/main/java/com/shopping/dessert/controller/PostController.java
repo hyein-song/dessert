@@ -28,8 +28,12 @@ public class PostController {
 
     @PreAuthorize("hasRole('ROLE_USER')")
     @GetMapping("/add")
-    public String getPostForm(Model model){
-        model.addAttribute("postAddForm", new PostDto.PostAddForm());
+    public String getPostForm(@RequestParam Long productId, Model model){
+        PostDto.PostAddForm postAddForm = PostDto.PostAddForm.builder()
+                .productId(productId)
+                .build();
+        model.addAttribute("postAddForm", postAddForm);
+
         return "post/add";
     }
 
@@ -77,6 +81,7 @@ public class PostController {
                 .category(postDetail.getCategory())
                 .postId(postDetail.getPostId())
                 .build();
+
         model.addAttribute("postUpdateForm",postUpdateForm);
         return "post/updateForm";
     }
@@ -91,7 +96,7 @@ public class PostController {
             model.addAttribute("postUpdateForm",postUpdateForm);
             return "post/updateForm";
         }
-
+        System.out.println(postUpdateForm);
         postService.updatePost(postUpdateForm, user);
 
         re.addAttribute("postId",postUpdateForm.getPostId());

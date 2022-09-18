@@ -38,7 +38,6 @@ public class PostService {
     @Transactional
     public Page<PostDto.PostDetail> getMyPostList(UserEntity user, Pageable pageable){
         Page<PostEntity> postEntities = postRepository.findByUser(user,pageable);
-
         return postEntities.map(PostDto.PostDetail::of);
     }
 
@@ -52,7 +51,7 @@ public class PostService {
 
     }
 
-
+    @Transactional
     public void updatePost(PostDto.PostUpdateForm postUpdateForm, UserEntity user){
         PostEntity post = postRepository.findById(postUpdateForm.getPostId()).orElseThrow(()->{
             throw new IllegalStateException("해당 id의 post가 존재하지 않습니다.");
@@ -62,16 +61,11 @@ public class PostService {
             throw new IllegalStateException("작성자가 아닙니다.");
         }
 
-        ProductEntity productEntity = productRepository.findByProductId(postUpdateForm.getProductId()).orElseThrow(()->{
-            throw new IllegalStateException("해당 id의 product가 존재하지 않습니다.");
-        });
-
-
-
-        post.update(postUpdateForm, productEntity);
+        post.update(postUpdateForm);
 
     }
 
+    @Transactional
     public void deletePost(Long postId, UserEntity user){
         PostEntity post = postRepository.findById(postId).orElseThrow(()->{
             throw new IllegalStateException("해당 id의 post가 존재하지 않습니다.");
