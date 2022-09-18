@@ -11,6 +11,8 @@ import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 
 public class PostDto {
@@ -78,6 +80,8 @@ public class PostDto {
         private String title;
         private String content;
         private String category;
+        private LocalDateTime createdTime;
+        private String userName;
 //        private Set<ReplyDto> replyDtoSet;
 
         public static PostDetail of(PostEntity postEntity){
@@ -86,6 +90,8 @@ public class PostDto {
                     .title(postEntity.getTitle())
                     .content(postEntity.getContent())
                     .category(postEntity.getCategory().toString())
+                    .createdTime(postEntity.getCreatedDateTime())
+                    .userName(postEntity.getUser().getName())
                     .build();
 
         }

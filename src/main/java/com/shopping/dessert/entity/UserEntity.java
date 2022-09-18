@@ -56,6 +56,10 @@ public class UserEntity extends BaseTimeEntity {
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<CartEntity> cartEntities = new LinkedHashSet<>();
 
+    @Builder.Default
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private Set<ReplyEntity> replyEntities = new LinkedHashSet<>();
+
     public void changeUserInfo(UserDto.Request.MyInfoUpdateForm updateForm){
         this.name = updateForm.getName();
         this.password = updateForm.getPassword();

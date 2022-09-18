@@ -30,4 +30,10 @@ public class ReplyEntity extends BaseTimeEntity {
     @NotNull
     @JoinColumn(name= "postId")
     private PostEntity post;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @NotNull
+    @JoinColumn(name= "userId")
+    private UserEntity user;
+
 }

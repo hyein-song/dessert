@@ -40,7 +40,8 @@ public class ProductDto {
         @Range(min=0, max=2000000000, message = "0에서 2,000,000,000 까지만 입력할 수 있습니다.")
         private Long amount;
 
-        private Set<PostDto.PostDetail> postDetails;
+        private Set<PostDto.PostDetail> reviewSet;
+        private Set<PostDto.PostDetail> qnaSet;
 
         public static ProductDetail of(ProductEntity productEntity){
             return builder()
@@ -49,7 +50,8 @@ public class ProductDto {
                     .price(productEntity.getPrice())
                     .content(productEntity.getContent())
                     .amount(productEntity.getAmount())
-                    .postDetails(productEntity.getPostEntities().stream().map(PostDto.PostDetail::of).collect(Collectors.toSet()))
+                    .reviewSet(productEntity.getPostEntities().stream().filter(i->i.getCategory().toString().equalsIgnoreCase("review")).map(PostDto.PostDetail::of).collect(Collectors.toSet()))
+                    .qnaSet(productEntity.getPostEntities().stream().filter(i->i.getCategory().toString().equalsIgnoreCase("question")).map(PostDto.PostDetail::of).collect(Collectors.toSet()))
                     .build();
         }
 
