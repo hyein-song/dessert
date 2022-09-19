@@ -20,18 +20,8 @@ public class ReplyService {
     private final PostRepository postRepository;
     private final UserRepository userRepository;
 
-
     @Transactional
-    public ReplyDto getReply(Long replyId){
-        ReplyEntity reply = replyRepository.findById(replyId).orElseThrow(()->{
-            throw new IllegalStateException("해당 id의 댓글이 존재하지 않습니다.");
-        });
-
-        return ReplyDto.of(reply);
-    }
-
-    @Transactional
-    public Long addReply(ReplyDto replyAddForm, UserEntity currentUser){
+    public void addReply(ReplyDto replyAddForm, UserEntity currentUser){
         UserEntity user = userRepository.findByEmail(currentUser.getEmail()).orElseThrow(()->{
             throw new IllegalStateException("해당 이메일의 유저가 존재하지 않습니다.");
         });
@@ -42,18 +32,17 @@ public class ReplyService {
 
         ReplyEntity replyEntity = ReplyDto.toEntity(replyAddForm,post,user);
 
-        ReplyEntity savedReply = replyRepository.save(replyEntity);
-
-        return savedReply.getReplyId();
-    }
-
-    @Transactional
-    public void updateReply(ReplyDto updateForm, UserEntity currentUser){
+        replyRepository.save(replyEntity);
 
     }
 
     @Transactional
-    public void deleteReply(Long replyId, UserEntity currentUser){
+    public void deleteReply(Long replyId){
+        ReplyEntity reply = replyRepository.findById(replyId).orElseThrow(()->{
+           throw new IllegalStateException("해당 id의 reply가 존재하지 않습니다.");
+        });
+
+        replyRepository.delete(reply);
 
     }
 }

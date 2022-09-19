@@ -13,6 +13,8 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 
 public class PostDto {
@@ -82,7 +84,8 @@ public class PostDto {
         private String category;
         private LocalDateTime createdTime;
         private String userName;
-//        private Set<ReplyDto> replyDtoSet;
+        private String userEmail;
+        private Set<ReplyDto> replyDtoSet;
 
         public static PostDetail of(PostEntity postEntity){
             return builder()
@@ -92,6 +95,8 @@ public class PostDto {
                     .category(postEntity.getCategory().toString())
                     .createdTime(postEntity.getCreatedDateTime())
                     .userName(postEntity.getUser().getName())
+                    .userEmail(postEntity.getUser().getEmail())
+                    .replyDtoSet(postEntity.getReplyEntities().stream().map(ReplyDto::of).collect(Collectors.toSet()))
                     .build();
 
         }

@@ -22,62 +22,26 @@ public class ReplyController {
 
     private final ReplyService replyService;
 
-    @GetMapping("/{replyId}")
-    public String getReply(@PathVariable Long replyId, Model model){
-        ReplyDto replyDto = replyService.getReply(replyId);
-        model.addAttribute("replyDto",replyDto);
-        return "reply/detail";
-    }
-
-    @PreAuthorize("isAuthenticated()")
-    @GetMapping("/add")
-    public String getAddReplyForm(@RequestParam Long postId, Model model){
-        ReplyDto replyDto = ReplyDto
-                .builder()
-                .postId(postId)
-                .build();
-
-        model.addAttribute("replyDto",replyDto);
-        return "reply/add";
-
-    }
-
     @PreAuthorize("isAuthenticated()")
     @PostMapping("/add")
     public String addReply(@Valid ReplyDto replyDto, BindingResult result, Model model, RedirectAttributes re, @CurrentUser UserEntity user){
         if (result.hasErrors()){
-            model.addAttribute("replyAddForm",replyDto);
+            model.addAttribute("replyDto",replyDto);
             return "reply/add";
         }
 
-        Long replyId = replyService.addReply(replyDto,user);
+        replyService.addReply(replyDto,user);
 
-        re.addAttribute("replyId",replyId);
-        return "redirect:/replies/{replyId}";
-
-    }
-
-    @PreAuthorize("isAuthenticated()")
-    @GetMapping("/update/{replyId}")
-    public String getUpdateReplyForm(@PathVariable Long replyId, Model model){
-
-        return "redirect:/post/detail/{postId}";
-    }
-
-    @PreAuthorize("isAuthenticated()")
-    @PostMapping("/update/{replyId}")
-    public String updateReply(@PathVariable Long replyId, @CurrentUser UserEntity user){
-
-        return "redirect:/post/detail/{postId}";
+        re.addAttribute("postId",replyDto.getPostId());
+        return "redirect:/posts/{postId}";
     }
 
     @PreAuthorize("isAuthenticated()")
     @PostMapping("/delete/{replyId}")
-    public String deleteReply(@PathVariable Long replyId, UserEntity user){
-
-        return "redirect:/post/detail/{postId}";
+    public String deleteReply(ReplyDto replyDto, RedirectAttributes re){
+        replyService.deleteReply(replyDto.getReplyId());
+        re.addAttribute("postId",replyDto.getPostId());
+        return "redirect:/posts/{postId}";
     }
-
-
 
 }

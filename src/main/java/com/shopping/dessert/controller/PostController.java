@@ -2,6 +2,7 @@ package com.shopping.dessert.controller;
 
 import com.shopping.dessert.custom.CurrentUser;
 import com.shopping.dessert.dto.PostDto;
+import com.shopping.dessert.dto.ReplyDto;
 import com.shopping.dessert.entity.PostEntity;
 import com.shopping.dessert.entity.UserEntity;
 import com.shopping.dessert.service.PostService;
@@ -66,6 +67,7 @@ public class PostController {
     public String getMyPostDetail(@PathVariable Long postId, Model model){
         PostDto.PostDetail postDetail = postService.getPostDetail(postId);
         model.addAttribute("postDetail",postDetail);
+        model.addAttribute("replyDto", new ReplyDto());
         return "post/detail";
     }
 
@@ -85,7 +87,6 @@ public class PostController {
         model.addAttribute("postUpdateForm",postUpdateForm);
         return "post/updateForm";
     }
-
 
 
     @PreAuthorize("hasRole('ROLE_USER')")

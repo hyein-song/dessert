@@ -32,12 +32,52 @@
                             <label th:for="category">카테고리</label>
                             <input name="category" class="form-control" type="text" th:value="${postDetail.category}" readonly>
                         </div>
+
                     </div>
                 </div>
+                <hr>
+<!--                <div class="mb-4">-->
+<!--                    <div class="row">-->
+                        <div th:each="review : ${postDetail.replyDtoSet}">
+                            <div class="col-md-6 form-group">
+                                <input name="userName" th:feild="${review.userName}" th:value="${review.userName}"  class="form-control" type="text" placeholder="userName" readonly />
+                            </div>
+                            <div class="col-md-6 form-group">
+                                <input name="date" th:feild="${review.localDateTime}" th:value="${review.localDateTime}"  class="form-control" type="text" placeholder="dateTime" readonly />
+                            </div>
+                            <div class="col-md-6 form-group">
+                                <label th:for="content2">내용</label>
+                                <input id="content2" name="content" th:feild="${review.content}" th:value="${review.content}"  class="form-control" type="text" placeholder="내용" readonly />
+                            </div>
+                            <div th:if="${postDetail.userEmail} == ${review.userEmail}">
+                                <form th:action="@{/replies/delete/{replyId} (replyId=${review.replyId})}" th:object="${replyDto}" method="post">
+                                    <input type="hidden" name="postId" th:value="${postDetail.postId}" />
+                                    <button class="btn btn-primary px-3 auth" type="submit">삭제 </button>
+                                </form>
+                            </div>
+                            <hr>
+                        </div>
+<!--                    </div>-->
+<!--                </div>-->
+<!--                <hr>-->
+<!--                <div class="mb-4">-->
+<!--                    <div class="row">-->
+                    <!--/*@thymesVar id="replyDto" type="com.shopping.dessert.dto.ReplyDto"*/-->
+                        <form th:action="@{/replies/add}" th:object="${replyDto}" method="post">
+                            <input type="hidden" name="postId" th:value="${postDetail.postId}" />
+                            <div class="col-md-6 form-group">
+                                <label th:for="content">내용</label>
+                                <input id="content" name="content" th:feild="*{content}" class="form-control" type="text" placeholder="내용..." />
+                            </div>
+                            <button class="btn btn-primary px-3 auth" type="submit">리뷰 남기기 </button>
+                        </form>
+<!--                    </div>-->
+<!--                </div>-->
             </div>
         </div>
     </div>
     <!-- Checkout End -->
 
 </div>
+
 </html>

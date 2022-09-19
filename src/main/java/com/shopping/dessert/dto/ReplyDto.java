@@ -24,7 +24,10 @@ public class ReplyDto {
         @NotNull
         private Long postId;
 
+        private Long replyId;
         private Long userId;
+        private String userName;
+        private String userEmail;
         private LocalDateTime localDateTime;
 
         public static ReplyEntity toEntity(ReplyDto replyDto, PostEntity post, UserEntity userEntity){
@@ -39,9 +42,12 @@ public class ReplyDto {
     public static ReplyDto of(ReplyEntity replyEntity){
         return ReplyDto
                 .builder()
+                .replyId(replyEntity.getReplyId())
                 .content(replyEntity.getContent())
                 .postId(replyEntity.getPost().getPostId())
                 .userId(replyEntity.getUser().getUserId())
+                .userName(replyEntity.getUser().getName())
+                .userEmail(replyEntity.getUser().getEmail())
                 .localDateTime(replyEntity.getCreatedDateTime()!=null ? replyEntity.getCreatedDateTime() : replyEntity.getModifiedDateTime())
                 .build();
 
