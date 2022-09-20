@@ -14,6 +14,8 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.mapping.JpaMetamodelMappingContext;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.TestExecutionEvent;
@@ -56,25 +58,7 @@ class OrderControllerTest {
     void orderProc() throws Exception{
 
         //given
-        ProductDto.ProductDetail productDetail = ProductDto.ProductDetail
-                .builder()
-                .productId(1L)
-                .name("테스트상품")
-                .amount(20L)
-                .price(100L)
-                .content("상품 상세설명")
-                .build();
-
-        CartDto.Response.CartDetailForm cartDetailForm = CartDto.Response.CartDetailForm
-                .builder()
-                .cartId(1L)
-                .amount(200L)
-                .totalPrice(200L)
-                .productDetail(productDetail)
-                .build();
-
-        List<CartDto.Response.CartDetailForm> cartDetailForms = new ArrayList<>();
-        cartDetailForms.add(cartDetailForm);
+        List<CartDto.Response.CartDetailForm> cartDetailForms = getCartDetailFormList();
 
         //mocking
         doReturn(cartDetailForms).when(cartService).getCartlist(any(UserEntity.class));
@@ -92,25 +76,7 @@ class OrderControllerTest {
     void addOrder() throws Exception {
 
         //given
-        ProductDto.ProductDetail productDetail = ProductDto.ProductDetail
-                .builder()
-                .productId(1L)
-                .name("테스트상품")
-                .amount(20L)
-                .price(100L)
-                .content("상품 상세설명")
-                .build();
-
-        CartDto.Response.CartDetailForm cartDetailForm = CartDto.Response.CartDetailForm
-                .builder()
-                .cartId(1L)
-                .amount(200L)
-                .totalPrice(200L)
-                .productDetail(productDetail)
-                .build();
-
-        List<CartDto.Response.CartDetailForm> cartDetailForms = new ArrayList<>();
-        cartDetailForms.add(cartDetailForm);
+        List<CartDto.Response.CartDetailForm> cartDetailForms = getCartDetailFormList();
 
         OrderDto.OrderProcDto orderProcDto = OrderDto.OrderProcDto
                 .builder()
@@ -143,10 +109,55 @@ class OrderControllerTest {
     }
 
     @Test
-    void getOrdersList() {
+    @WithUserDetails(value = "test@google.com", setupBefore = TestExecutionEvent.TEST_EXECUTION, userDetailsServiceBeanName = "principalDetailsService")
+    void getOrdersList() throws Exception{
+
+        doReturn(Page.empty()).when(orderService).getOrderList(any(UserEntity.class),any(Pageable.class));
+
+        mockMvc.perform(get("/orders/list"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("order/list"));
     }
 
     @Test
-    void getOrderProductList() {
+    @WithUserDetails(value = "test@google.com", setupBefore = TestExecutionEvent.TEST_EXECUTION, userDetailsServiceBeanName = "principalDetailsService")
+    void getOrderProductList() throws Exception {
+
+        OrderDto.OrderDetail order = OrderDto.OrderDetail
+                .builder()
+                .orderId(1L)
+                .build();
+
+        doReturn(order).when(orderService).getOrderDetail(any(Long.class));
+
+        mockMvc.perform(get("/orders/{orderId}", order.getOrderId()))
+                .andExpect(status().isOk())
+                .andExpect(view().name("order/detail"));
+
     }
+
+    List<CartDto.Response.CartDetailForm> getCartDetailFormList(){
+        ProductDto.ProductDetail productDetail = ProductDto.ProductDetail
+                .builder()
+                .productId(1L)
+                .name("테스트상품")
+                .amount(20L)
+                .price(100L)
+                .content("상품 상세설명")
+                .build();
+
+        CartDto.Response.CartDetailForm cartDetailForm = CartDto.Response.CartDetailForm
+                .builder()
+                .cartId(1L)
+                .amount(200L)
+                .totalPrice(200L)
+                .productDetail(productDetail)
+                .build();
+
+        List<CartDto.Response.CartDetailForm> cartDetailForms = new ArrayList<>();
+        cartDetailForms.add(cartDetailForm);
+
+        return cartDetailForms;
+    }
+
 }
