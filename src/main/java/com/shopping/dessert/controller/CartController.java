@@ -5,6 +5,7 @@ import com.shopping.dessert.dto.CartDto;
 import com.shopping.dessert.entity.UserEntity;
 import com.shopping.dessert.service.CartService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -20,9 +21,10 @@ public class CartController {
 
     private final CartService cartService;
 
+    @PreAuthorize("isAuthenticated()")
     @PostMapping("/add")
     public String addToCart(@Valid CartDto.Response.CartAddForm cartAddForm, BindingResult result, @CurrentUser UserEntity currentUser, Model model){
-        System.out.println(cartAddForm);
+//        System.out.println(cartAddForm);
         if (currentUser == null){
             return "redirect:/account/login";
         }
@@ -35,7 +37,7 @@ public class CartController {
         cartService.addToCart(cartAddForm, currentUser);
         return "redirect:/carts/list";
     }
-
+    @PreAuthorize("isAuthenticated()")
     @GetMapping("/list")
     public String getCartList(@CurrentUser UserEntity currentUser, Model model){
         if (currentUser == null){
@@ -46,7 +48,7 @@ public class CartController {
         return "cart/list";
     }
 
-
+    @PreAuthorize("isAuthenticated()")
     @PostMapping("/delete/{cartId}")
     public String deleteFromCart(@PathVariable Long cartId){
         cartService.deleteFromCart(cartId);
