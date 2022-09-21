@@ -97,7 +97,7 @@ public class PostController {
             model.addAttribute("postUpdateForm",postUpdateForm);
             return "post/updateForm";
         }
-        System.out.println(postUpdateForm);
+
         postService.updatePost(postUpdateForm, user);
 
         re.addAttribute("postId",postUpdateForm.getPostId());
