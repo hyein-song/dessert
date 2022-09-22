@@ -37,7 +37,7 @@ public class ReplyController {
 
     @PreAuthorize("isAuthenticated()")
     @PostMapping("/delete/{replyId}")
-    public String deleteReply(ReplyDto replyDto, RedirectAttributes re, @CurrentUser UserEntity user){
+    public String deleteReply(@Valid ReplyDto replyDto, RedirectAttributes re, @CurrentUser UserEntity user){
         // 본인확인 필요?
         replyService.deleteReply(replyDto.getReplyId(),user);
         re.addAttribute("postId",replyDto.getPostId());
