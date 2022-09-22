@@ -25,21 +25,21 @@ public class ReplyController {
     @PreAuthorize("isAuthenticated()")
     @PostMapping("/add")
     public String addReply(@Valid ReplyDto replyDto, BindingResult result, Model model, RedirectAttributes re, @CurrentUser UserEntity user){
+        re.addAttribute("postId",replyDto.getPostId());
+
         if (result.hasErrors()){
-            model.addAttribute("replyDto",replyDto);
-            return "reply/add";
+            return "redirect:/posts/{postId}";
         }
 
         replyService.addReply(replyDto,user);
-
-        re.addAttribute("postId",replyDto.getPostId());
         return "redirect:/posts/{postId}";
     }
 
     @PreAuthorize("isAuthenticated()")
     @PostMapping("/delete/{replyId}")
-    public String deleteReply(ReplyDto replyDto, RedirectAttributes re){
-        replyService.deleteReply(replyDto.getReplyId());
+    public String deleteReply(ReplyDto replyDto, RedirectAttributes re, @CurrentUser UserEntity user){
+        // 본인확인 필요?
+        replyService.deleteReply(replyDto.getReplyId(),user);
         re.addAttribute("postId",replyDto.getPostId());
         return "redirect:/posts/{postId}";
     }

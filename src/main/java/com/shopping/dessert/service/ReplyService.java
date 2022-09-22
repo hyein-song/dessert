@@ -37,10 +37,18 @@ public class ReplyService {
     }
 
     @Transactional
-    public void deleteReply(Long replyId){
+    public void deleteReply(Long replyId, UserEntity userEntity){
         ReplyEntity reply = replyRepository.findById(replyId).orElseThrow(()->{
            throw new IllegalStateException("해당 id의 reply가 존재하지 않습니다.");
         });
+
+        UserEntity user = userRepository.findById(userEntity.getUserId()).orElseThrow(()->{
+            throw new IllegalStateException("해당 id의 유저가 존재하지 않습니다.");
+        });
+
+        if (!reply.getUser().getEmail().equals(user.getEmail())){
+            throw new IllegalStateException("해당 댓글의 글쓴이가 아닙니다.");
+        }
 
         replyRepository.delete(reply);
 
