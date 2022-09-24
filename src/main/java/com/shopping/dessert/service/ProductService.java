@@ -2,6 +2,7 @@ package com.shopping.dessert.service;
 
 import com.shopping.dessert.dto.ProductDto;
 import com.shopping.dessert.entity.ProductEntity;
+import com.shopping.dessert.repository.FileRepository;
 import com.shopping.dessert.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -19,12 +20,11 @@ public class ProductService {
     private final ProductRepository productRepository;
 
     @Transactional
-    public Long addProduct(ProductDto.Request.ProductAddForm productAddForm) {
+    public ProductEntity addProduct(ProductDto.Request.ProductAddForm productAddForm) {
 
         ProductEntity productEntity = productAddForm.toEntity();
 
-        ProductEntity product = productRepository.save(productEntity);
-        return product.getProductId();
+        return productRepository.save(productEntity);
     }
 
     @Transactional

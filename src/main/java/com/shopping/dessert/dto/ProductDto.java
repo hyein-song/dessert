@@ -3,6 +3,7 @@ package com.shopping.dessert.dto;
 import com.shopping.dessert.entity.ProductEntity;
 import lombok.*;
 import org.hibernate.validator.constraints.Range;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.Column;
 import javax.validation.constraints.Min;
@@ -87,7 +88,7 @@ public class ProductDto {
             private String content;
 
             // TODO: Multipart로 image 받기
-//            private String image;
+            private MultipartFile[] multiParts;
 
             @NotNull(message = "상품 수량을 입력하세요.")
             @Range(min=0, max=2000000000, message = "0에서 2,000,000,000 까지만 입력할 수 있습니다.")

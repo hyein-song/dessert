@@ -1,6 +1,7 @@
 package com.shopping.dessert.entity;
 
 import com.shopping.dessert.dto.ProductDto;
+import com.sun.xml.bind.v2.TODO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -9,7 +10,9 @@ import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Set;
 
 
@@ -32,8 +35,9 @@ public class ProductEntity extends BaseTimeEntity {
 
     private String content;
 
-    // TODO: Multipart로 image 받기
-//    private String image;
+    @Builder.Default
+    @OneToMany(mappedBy = "product", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<FileEntity> images = new ArrayList<>();
 
     private Long amount;
 

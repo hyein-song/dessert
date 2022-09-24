@@ -3,6 +3,7 @@ package com.shopping.dessert.controller;
 import com.shopping.dessert.dto.CartDto;
 import com.shopping.dessert.dto.ProductDto;
 import com.shopping.dessert.entity.ProductEntity;
+import com.shopping.dessert.service.FileService;
 import com.shopping.dessert.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -25,6 +26,7 @@ import java.util.Optional;
 public class ProductController {
 
     private final ProductService productService;
+    private final FileService fileService;
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/add")
@@ -48,8 +50,10 @@ public class ProductController {
             return "product/add";
         }
 
-        Long productId = productService.addProduct(productAddForm);
-        re.addAttribute("productId",productId);
+        ProductEntity product = productService.addProduct(productAddForm);
+        fileService.uploadFile(productAddForm.getMultiParts(), product);
+
+        re.addAttribute("productId",product.getProductId());
         return "redirect:/products/{productId}"; // detail 페이지로 넘기기
     }
     @PreAuthorize("hasRole('ROLE_ADMIN')")
