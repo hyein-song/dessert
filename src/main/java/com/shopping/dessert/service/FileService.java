@@ -28,17 +28,17 @@ public class FileService {
     private final FileRepository fileRepository;
 
     private final String today = LocalDate.now().format(DateTimeFormatter.ofPattern("yyMMdd"));
-    private final String uploadPath = Paths.get("C:","dessert","upload",today).toString();
+    private final String uploadPath = Paths.get("C:","uploads").toString();
 
     private final String getRandomString(){
         return UUID.randomUUID().toString().replaceAll("-","");
     }
 
     @Transactional
-    public List<FileDto> uploadFile(MultipartFile[] multipartFiles, ProductEntity productEntity){
+    public void uploadFile(MultipartFile[] multipartFiles, ProductEntity productEntity){
 
         if (multipartFiles[0].getSize() < 0){
-            return Collections.emptyList();
+            return;
         }
 
         List<FileDto> savedFiles = new ArrayList<>();
@@ -76,8 +76,5 @@ public class FileService {
                 throw new RuntimeException(e);
             }
         }
-
-
-        return savedFiles;
     }
 }

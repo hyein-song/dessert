@@ -16,6 +16,7 @@ public class FileDto {
 
     public String originalName;
     public String savedName;
+    public String filePath;
 
     public Long productId;
 
@@ -25,6 +26,7 @@ public class FileDto {
                 .fileId(fileEntity.getFileId())
                 .originalName(fileEntity.getOriginalName())
                 .savedName(fileEntity.getSavedName())
+                .filePath(fileEntity.getFilePath())
                 .productId(fileEntity.getProduct().getProductId())
                 .build();
     }

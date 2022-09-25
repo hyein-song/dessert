@@ -39,8 +39,8 @@
                                 <span th:if="${#fields.hasErrors('amount')}" th:errors="*{amount}">amount error</span>
                             </div>
                             <div class="col-md-6 form-group">
-                                <label th:for="multiParts">상품 수량</label>
-                                <input id="multiParts" name="multiParts" th:feild="*{multiParts}" th:value="*{multiParts}" class="form-control" type="file" placeholder="상품 이미지">
+                                <label th:for="multiParts">상품 사진</label>
+                                <input th:multiple="multiple" id="multiParts" name="multiParts" th:feild="*{multiParts}" th:value="*{multiParts}" class="form-control" type="file" placeholder="상품 이미지">
 <!--                                <span th:if="${#fields.hasErrors('amount')}" th:errors="*{amount}">amount error</span>-->
                             </div>
                             <button class="btn btn-lg btn-block btn-primary font-weight-bold my-3 py-3 form-control" type="submit">상품 추가하기</button>

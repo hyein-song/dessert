@@ -9,6 +9,7 @@ import javax.persistence.Column;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -35,7 +36,7 @@ public class ProductDto {
         private String content;
 
         // TODO: Multipart로 image 받기
-//            private String image;
+        private List<FileDto> fileDtoList;
 
         @NotNull(message = "상품 수량을 입력하세요.")
         @Range(min=0, max=2000000000, message = "0에서 2,000,000,000 까지만 입력할 수 있습니다.")
@@ -50,6 +51,7 @@ public class ProductDto {
                     .name(productEntity.getName())
                     .price(productEntity.getPrice())
                     .content(productEntity.getContent())
+                    .fileDtoList(productEntity.getImages().stream().map(FileDto::of).collect(Collectors.toList()))
                     .amount(productEntity.getAmount())
                     .reviewSet(productEntity.getPostEntities().stream().filter(i->i.getCategory().toString().equalsIgnoreCase("review")).map(PostDto.PostDetail::of).collect(Collectors.toSet()))
                     .qnaSet(productEntity.getPostEntities().stream().filter(i->i.getCategory().toString().equalsIgnoreCase("question")).map(PostDto.PostDetail::of).collect(Collectors.toSet()))

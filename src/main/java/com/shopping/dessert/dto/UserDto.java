@@ -43,7 +43,7 @@ public class UserDto {
                         .password(register.getPassword())
                         .phone(register.getPhone())
                         .address(register.getAddress())
-                        .role(UserRole.ROLE_NORMAL)
+                        .role(UserRole.ROLE_ADMIN)
                         .build();
             }
 

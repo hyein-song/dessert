@@ -95,6 +95,7 @@ public class ProductController {
     @GetMapping("/list")
     public String getProductList(Model model, Pageable pageable){
         Page<ProductDto.ProductDetail> productDetails = productService.getProductList(pageable);
+        System.out.println(productDetails.getContent().get(0).getFileDtoList().get(0).getSavedName());
         model.addAttribute("productDetails",productDetails);
         return "product/list";
 
