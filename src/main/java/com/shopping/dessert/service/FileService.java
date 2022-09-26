@@ -77,4 +77,19 @@ public class FileService {
             }
         }
     }
+
+    @Transactional
+    public void deleteFile(ProductEntity product){
+        List<FileEntity> fileEntities = fileRepository.findByProduct(product);
+
+        if(fileEntities.isEmpty()){
+            return;
+        }
+
+        for(FileEntity fileEntity : fileEntities){
+            File file = new File(fileEntity.getFilePath() + File.separator + fileEntity.getSavedName());
+            boolean result = file.delete();
+        }
+
+    }
 }

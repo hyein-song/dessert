@@ -26,7 +26,7 @@ import java.util.Optional;
 public class ProductController {
 
     private final ProductService productService;
-    private final FileService fileService;
+//    private final FileService fileService;
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/add")
@@ -50,10 +50,9 @@ public class ProductController {
             return "product/add";
         }
 
-        ProductEntity product = productService.addProduct(productAddForm);
-        fileService.uploadFile(productAddForm.getMultiParts(), product);
+        Long productId = productService.addProduct(productAddForm);
 
-        re.addAttribute("productId",product.getProductId());
+        re.addAttribute("productId",productId);
         return "redirect:/products/{productId}"; // detail 페이지로 넘기기
     }
     @PreAuthorize("hasRole('ROLE_ADMIN')")

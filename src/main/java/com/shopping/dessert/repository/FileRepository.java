@@ -10,5 +10,5 @@ import java.util.List;
 @Repository
 public interface FileRepository extends JpaRepository<FileEntity, Long> {
 
-//    List<FileEntity> findByProduct(ProductEntity productEntity);
+    List<FileEntity> findByProduct(ProductEntity productEntity);
 }

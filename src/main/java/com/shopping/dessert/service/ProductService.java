@@ -22,13 +22,17 @@ import java.util.stream.Collectors;
 public class ProductService {
 
     private final ProductRepository productRepository;
+    private final FileService fileService;
 
     @Transactional
-    public ProductEntity addProduct(ProductDto.Request.ProductAddForm productAddForm) {
+    public Long addProduct(ProductDto.Request.ProductAddForm productAddForm) {
 
         ProductEntity productEntity = productAddForm.toEntity();
+        ProductEntity savedProduct = productRepository.save(productEntity);
 
-        return productRepository.save(productEntity);
+        fileService.uploadFile(productAddForm.getMultiParts(), savedProduct);
+
+        return savedProduct.getProductId();
     }
 
     @Transactional
@@ -47,6 +51,7 @@ public class ProductService {
             throw new IllegalStateException("해당 id의 상품이 존재하지 않습니다.");
         });
 
+        fileService.deleteFile(productEntity);
         productRepository.delete(productEntity);
 
     }

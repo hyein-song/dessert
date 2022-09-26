@@ -35,8 +35,8 @@ public class ProductDto {
         @NotBlank(message = "상세 내용을 입력하세요.")
         private String content;
 
-        // TODO: Multipart로 image 받기
         private List<FileDto> fileDtoList;
+        private MultipartFile[] multiParts;
 
         @NotNull(message = "상품 수량을 입력하세요.")
         @Range(min=0, max=2000000000, message = "0에서 2,000,000,000 까지만 입력할 수 있습니다.")
@@ -89,7 +89,6 @@ public class ProductDto {
             @NotBlank(message = "상세 내용을 입력하세요.")
             private String content;
 
-            // TODO: Multipart로 image 받기
             private MultipartFile[] multiParts;
 
             @NotNull(message = "상품 수량을 입력하세요.")
@@ -111,8 +110,4 @@ public class ProductDto {
 
     }
 
-    public static class Response{
-
-
-    }
 }
