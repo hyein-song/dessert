@@ -25,7 +25,7 @@ public class ProductService {
     private final FileService fileService;
 
     @Transactional
-    public Long addProduct(ProductDto.Request.ProductAddForm productAddForm) {
+    public Long addProduct(ProductDto.ProductAddForm productAddForm) {
 
         ProductEntity productEntity = productAddForm.toEntity();
         ProductEntity savedProduct = productRepository.save(productEntity);
@@ -70,8 +70,6 @@ public class ProductService {
 
         return ProductDto.ProductDetail.of(productEntity);
     }
-
-
 
     public Optional<ProductEntity> getProductByName(String productName){
         return productRepository.findByName(productName);

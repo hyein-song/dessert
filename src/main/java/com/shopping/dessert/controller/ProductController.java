@@ -26,18 +26,17 @@ import java.util.Optional;
 public class ProductController {
 
     private final ProductService productService;
-//    private final FileService fileService;
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/add")
     public String addProduct(Model model){
-        model.addAttribute("productAddForm",new ProductDto.Request.ProductAddForm());
+        model.addAttribute("productAddForm",new ProductDto.ProductAddForm());
         return "product/add";
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping("/add")
-    public String addProduct(@Valid ProductDto.Request.ProductAddForm productAddForm, BindingResult result, Model model, RedirectAttributes re){
+    public String addProduct(@Valid ProductDto.ProductAddForm productAddForm, BindingResult result, Model model, RedirectAttributes re){
 
         Optional<ProductEntity> productEntity = productService.getProductByName(productAddForm.getName());
 
@@ -66,7 +65,7 @@ public class ProductController {
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping("/update/{productId}")
-    public String updateProduct(@PathVariable Long productId, @Valid @RequestBody ProductDto.ProductDetail productDetail, BindingResult result, Model model, RedirectAttributes re ){
+    public String updateProduct(@PathVariable Long productId, @Valid ProductDto.ProductDetail productDetail, BindingResult result, Model model, RedirectAttributes re ){
         Optional<ProductEntity> productEntity = productService.getProductByName(productDetail.getName());
 
         if (productEntity.isPresent() && !productEntity.get().getProductId().equals(productId)){
@@ -90,11 +89,9 @@ public class ProductController {
         return "redirect:/";
     }
 
-
     @GetMapping("/list")
     public String getProductList(Model model, Pageable pageable){
         Page<ProductDto.ProductDetail> productDetails = productService.getProductList(pageable);
-        System.out.println(productDetails.getContent().get(0).getFileDtoList().get(0).getSavedName());
         model.addAttribute("productDetails",productDetails);
         return "product/list";
 

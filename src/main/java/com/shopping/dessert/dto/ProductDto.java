@@ -36,7 +36,6 @@ public class ProductDto {
         private String content;
 
         private List<FileDto> fileDtoList;
-        private MultipartFile[] multiParts;
 
         @NotNull(message = "상품 수량을 입력하세요.")
         @Range(min=0, max=2000000000, message = "0에서 2,000,000,000 까지만 입력할 수 있습니다.")
@@ -71,8 +70,6 @@ public class ProductDto {
 
     }
 
-    public static class Request{
-
         @Data
         @Builder
         @NoArgsConstructor
@@ -95,7 +92,6 @@ public class ProductDto {
             @Range(min=0, max=2000000000, message = "0에서 2,000,000,000 까지만 입력할 수 있습니다.")
             private Long amount;
 
-            // TODO : image file 추가 필요
             public ProductEntity toEntity(){
                 return ProductEntity
                         .builder()
@@ -105,8 +101,6 @@ public class ProductDto {
                         .amount(this.getAmount())
                         .build();
             }
-
-        }
 
     }
 
