@@ -4,6 +4,8 @@ import com.shopping.dessert.auth.PrincipalDetails;
 import com.shopping.dessert.auth.PrincipalDetailsService;
 import com.shopping.dessert.dto.UserDto;
 import com.shopping.dessert.entity.UserEntity;
+import com.shopping.dessert.exceptionHandler.EmailDuplicateException;
+import com.shopping.dessert.exceptionHandler.ErrorCode;
 import com.shopping.dessert.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -30,7 +32,7 @@ public class UserService {
     public void register(UserDto.Request.RegisterForm registerForm){
         boolean exitsUser =  userRepository.existsByEmail(registerForm.getEmail());
         if (exitsUser){
-            throw new IllegalStateException("이미 존재하는 이메일입니다.");
+            throw new EmailDuplicateException("이미 존재하는 이메일 입니다.", ErrorCode.EMAIL_DUPLICATION);
         };
 
         String originPW = registerForm.getPassword();
