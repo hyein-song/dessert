@@ -1,16 +1,14 @@
 package com.shopping.dessert.controller;
 
-import com.shopping.dessert.custom.CurrentUser;
+import com.shopping.dessert.annotation.CurrentUser;
 import com.shopping.dessert.dto.PostDto;
 import com.shopping.dessert.dto.ReplyDto;
-import com.shopping.dessert.entity.PostEntity;
 import com.shopping.dessert.entity.UserEntity;
 import com.shopping.dessert.service.PostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -18,7 +16,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
-import java.util.Set;
 
 @Controller
 @RequiredArgsConstructor

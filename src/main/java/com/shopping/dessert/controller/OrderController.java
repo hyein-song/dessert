@@ -1,11 +1,9 @@
 package com.shopping.dessert.controller;
 
-import com.shopping.dessert.custom.CurrentUser;
+import com.shopping.dessert.annotation.CurrentUser;
 import com.shopping.dessert.dto.CartDto;
 import com.shopping.dessert.dto.OrderDto;
 import com.shopping.dessert.dto.UserDto;
-import com.shopping.dessert.entity.OrderEntity;
-import com.shopping.dessert.entity.OrderProductEntity;
 import com.shopping.dessert.entity.UserEntity;
 import com.shopping.dessert.service.CartService;
 import com.shopping.dessert.service.OrderService;
@@ -18,8 +16,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 @Controller
 @RequiredArgsConstructor

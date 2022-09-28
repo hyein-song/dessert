@@ -1,6 +1,6 @@
 package com.shopping.dessert.controller;
 
-import com.shopping.dessert.custom.CurrentUser;
+import com.shopping.dessert.annotation.CurrentUser;
 import com.shopping.dessert.dto.CartDto;
 import com.shopping.dessert.entity.UserEntity;
 import com.shopping.dessert.service.CartService;

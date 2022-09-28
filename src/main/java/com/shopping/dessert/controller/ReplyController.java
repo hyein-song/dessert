@@ -1,12 +1,11 @@
 package com.shopping.dessert.controller;
 
-import com.shopping.dessert.custom.CurrentUser;
+import com.shopping.dessert.annotation.CurrentUser;
 import com.shopping.dessert.dto.ReplyDto;
 import com.shopping.dessert.entity.UserEntity;
 import com.shopping.dessert.service.ReplyService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;

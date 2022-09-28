@@ -1,4 +1,4 @@
-package com.shopping.dessert.custom;
+package com.shopping.dessert.annotation;
 
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 

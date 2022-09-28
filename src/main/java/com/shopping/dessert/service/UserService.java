@@ -6,6 +6,7 @@ import com.shopping.dessert.dto.UserDto;
 import com.shopping.dessert.entity.UserEntity;
 import com.shopping.dessert.exceptionHandler.EmailDuplicateException;
 import com.shopping.dessert.exceptionHandler.ErrorCode;
+import com.shopping.dessert.exceptionHandler.PasswordInvalidException;
 import com.shopping.dessert.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -66,7 +67,7 @@ public class UserService {
 
         String originPW = userDeleteForm.getPassword();
         if (passwordEncoder.matches(originPW, userDeleteForm.getPassword())){
-            throw new IllegalStateException("비밀번호가 일치하지 않습니다.");
+            throw new PasswordInvalidException("비밀번호가 일치하지 않습니다.",ErrorCode.PASSWORD_INVALID);
         }
 
         userRepository.delete(user);
