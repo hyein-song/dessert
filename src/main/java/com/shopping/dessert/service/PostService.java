@@ -4,6 +4,8 @@ import com.shopping.dessert.dto.PostDto;
 import com.shopping.dessert.entity.PostEntity;
 import com.shopping.dessert.entity.ProductEntity;
 import com.shopping.dessert.entity.UserEntity;
+import com.shopping.dessert.exceptionHandler.CustomException;
+import com.shopping.dessert.exceptionHandler.ErrorCode;
 import com.shopping.dessert.repository.PostRepository;
 import com.shopping.dessert.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
@@ -25,7 +27,7 @@ public class PostService {
     public Long addPost(PostDto.PostAddForm postAddForm, UserEntity user){
 
         ProductEntity productEntity = productRepository.findByProductId(postAddForm.getProductId()).orElseThrow(()->{
-            throw new IllegalStateException("해당 아이디의 제품이 없습니다.");
+            throw new CustomException("해당 id의 상품이 존재하지 않습니다.", ErrorCode.PRODUCT_NOT_FOUND);
         });
 
         PostEntity postEntity = PostDto.PostAddForm.toEntity(postAddForm,productEntity,user);
@@ -44,7 +46,7 @@ public class PostService {
     @Transactional
     public PostDto.PostDetail getPostDetail(Long postId){
         PostEntity post = postRepository.findById(postId).orElseThrow(()->{
-            throw new IllegalStateException("해당 id의 post가 존재하지 않습니다.");
+            throw new CustomException("해당 id의 post가 존재하지 않습니다.",ErrorCode.POST_NOT_FOUND);
         });
 
         return PostDto.PostDetail.of(post);
@@ -54,11 +56,11 @@ public class PostService {
     @Transactional
     public void updatePost(PostDto.PostUpdateForm postUpdateForm, UserEntity user){
         PostEntity post = postRepository.findById(postUpdateForm.getPostId()).orElseThrow(()->{
-            throw new IllegalStateException("해당 id의 post가 존재하지 않습니다.");
+            throw new CustomException("해당 id의 post가 존재하지 않습니다.",ErrorCode.POST_NOT_FOUND);
         });
 
         if (!post.getUser().getEmail().equals(user.getEmail())){
-            throw new IllegalStateException("작성자가 아닙니다.");
+            throw new CustomException("해당 글의 작성자가 아닙니다.",ErrorCode.WRITER_NOT_MATCH);
         }
 
         post.update(postUpdateForm);
@@ -68,11 +70,11 @@ public class PostService {
     @Transactional
     public void deletePost(Long postId, UserEntity user){
         PostEntity post = postRepository.findById(postId).orElseThrow(()->{
-            throw new IllegalStateException("해당 id의 post가 존재하지 않습니다.");
+            throw new CustomException("해당 id의 post가 존재하지 않습니다.",ErrorCode.POST_NOT_FOUND);
         });
 
         if (!post.getUser().getEmail().equals(user.getEmail())){
-            throw new IllegalStateException("작성자가 아닙니다.");
+            throw new CustomException("해당 글의 작성자가 아닙니다.",ErrorCode.WRITER_NOT_MATCH);
         }
 
         postRepository.delete(post);

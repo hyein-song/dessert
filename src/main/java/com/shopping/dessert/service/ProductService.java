@@ -4,6 +4,8 @@ import com.shopping.dessert.dto.FileDto;
 import com.shopping.dessert.dto.ProductDto;
 import com.shopping.dessert.entity.FileEntity;
 import com.shopping.dessert.entity.ProductEntity;
+import com.shopping.dessert.exceptionHandler.CustomException;
+import com.shopping.dessert.exceptionHandler.ErrorCode;
 import com.shopping.dessert.repository.FileRepository;
 import com.shopping.dessert.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
@@ -38,7 +40,7 @@ public class ProductService {
     @Transactional
     public void updateProduct(ProductDto.ProductDetail productDetail){
         ProductEntity productEntity = productRepository.findByProductId(productDetail.getProductId()).orElseThrow(()->{
-            throw new IllegalStateException("해당 id의 상품이 존재하지 않습니다.");
+            throw new CustomException("해당 id의 상품이 존재하지 않습니다.", ErrorCode.PRODUCT_NOT_FOUND);
         });
 
         productEntity.changProductInfo(productDetail);
@@ -48,7 +50,7 @@ public class ProductService {
     @Transactional
     public void deleteProduct(Long productId){
         ProductEntity productEntity = productRepository.findByProductId(productId).orElseThrow(()->{
-            throw new IllegalStateException("해당 id의 상품이 존재하지 않습니다.");
+            throw new CustomException("해당 id의 상품이 존재하지 않습니다.",ErrorCode.PRODUCT_NOT_FOUND);
         });
 
         fileService.deleteFile(productEntity);
@@ -65,7 +67,7 @@ public class ProductService {
     @Transactional
     public ProductDto.ProductDetail getProductDetail(Long productId){
         ProductEntity productEntity = productRepository.findByProductId(productId).orElseThrow(()->{
-            throw new IllegalStateException("해당 id를 가진 상품이 존재하지 않습니다.");
+            throw new CustomException("해당 id의 상품이 존재하지 않습니다.",ErrorCode.PRODUCT_NOT_FOUND);
         });
 
         return ProductDto.ProductDetail.of(productEntity);

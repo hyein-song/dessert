@@ -32,7 +32,7 @@ public class CartService {
         });
 
         ProductEntity product = productRepository.findByProductId(cartAddForm.getProductId()).orElseThrow(()-> {
-            throw new IllegalStateException("해당 Id의 상품이 존재하지 않습니다.");
+            throw new CustomException("해당 id의 상품이 존재하지 않습니다.",ErrorCode.PRODUCT_NOT_FOUND);
         });
 
         Optional<CartEntity> cart = cartRepository.findByUserAndProduct(user,product);
@@ -68,7 +68,7 @@ public class CartService {
     @Transactional
     public void deleteFromCart(Long cartId){
         CartEntity cart = cartRepository.findById(cartId).orElseThrow(()->{
-            throw new IllegalStateException("해당 id의 장바구니 아이템이 존재하지 않습니다.");
+            throw new CustomException("해당 id의 장바구니 아이템이 존재하지 않습니다.",ErrorCode.CART_NOT_FOUND);
         });
 
         cartRepository.delete(cart);

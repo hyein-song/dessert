@@ -29,7 +29,8 @@ public class ReplyService {
         });
 
         PostEntity post = postRepository.findById(replyAddForm.getPostId()).orElseThrow(()->{
-            throw new IllegalStateException("해당 id의 post가 존재하지 않습니다.");
+
+            throw new CustomException("해당 id의 post가 존재하지 않습니다.",ErrorCode.POST_NOT_FOUND);
         });
 
         ReplyEntity replyEntity = ReplyDto.toEntity(replyAddForm,post,user);
@@ -41,7 +42,7 @@ public class ReplyService {
     @Transactional
     public void deleteReply(Long replyId, UserEntity userEntity){
         ReplyEntity reply = replyRepository.findById(replyId).orElseThrow(()->{
-           throw new IllegalStateException("해당 id의 reply가 존재하지 않습니다.");
+            throw new CustomException("해당 id의 reply가 존재하지 않습니다.",ErrorCode.REPLY_NOT_FOUND);
         });
 
         UserEntity user = userRepository.findById(userEntity.getUserId()).orElseThrow(()->{
@@ -49,7 +50,7 @@ public class ReplyService {
         });
 
         if (!reply.getUser().getEmail().equals(user.getEmail())){
-            throw new IllegalStateException("해당 댓글의 글쓴이가 아닙니다.");
+            throw new CustomException("해당 글의 작성자가 아닙니다.",ErrorCode.WRITER_NOT_MATCH);
         }
 
         replyRepository.delete(reply);

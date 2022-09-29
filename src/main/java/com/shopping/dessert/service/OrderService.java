@@ -72,7 +72,7 @@ public class OrderService {
     @Transactional
     public OrderDto.OrderDetail getOrderDetail(Long orderId) {
         OrderEntity order = orderRepository.findById(orderId).orElseThrow(() -> {
-            throw new IllegalStateException("해당 아이디의 주문이 존재하지 않습니다.");
+            throw new CustomException("해당 아이디의 주문이 존재하지 않습니다.",ErrorCode.ORDER_NOT_FOUND);
         });
 
         Set<OrderDto.OrderProductDetail> productDetails =
