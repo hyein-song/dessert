@@ -35,7 +35,7 @@ public class OrderService {
 
         // 회원 조회
         UserEntity user = userRepository.findById(userId).orElseThrow(() -> {
-            throw new CustomException("해당 id의 유저가 존재하지 않습니다.", ErrorCode.USER_NOT_FOUND);
+            throw new CustomException(ErrorCode.USER_NOT_FOUND);
         });
 
         // order 저장
@@ -72,7 +72,7 @@ public class OrderService {
     @Transactional
     public OrderDto.OrderDetail getOrderDetail(Long orderId) {
         OrderEntity order = orderRepository.findById(orderId).orElseThrow(() -> {
-            throw new CustomException("해당 아이디의 주문이 존재하지 않습니다.",ErrorCode.ORDER_NOT_FOUND);
+            throw new CustomException(ErrorCode.ORDER_NOT_FOUND);
         });
 
         Set<OrderDto.OrderProductDetail> productDetails =

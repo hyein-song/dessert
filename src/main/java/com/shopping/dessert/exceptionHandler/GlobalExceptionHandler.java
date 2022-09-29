@@ -10,9 +10,9 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
-    @ExceptionHandler(EmailDuplicateException.class)
-    public ResponseEntity<ErrorResponse> handleEmailDuplicateException(EmailDuplicateException ex){
-        log.error("handleEmailDuplicateException",ex);
+    @ExceptionHandler(CustomException.class)
+    public ResponseEntity<ErrorResponse> handleEmailDuplicateException(CustomException ex){
+        log.error(ex.getMessage(),ex);
         ErrorResponse response = new ErrorResponse(ex.getErrorcode());
         return new ResponseEntity<>(response, HttpStatus.valueOf(ex.getErrorcode().getStatus()));
     }

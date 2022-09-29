@@ -40,7 +40,7 @@ public class ProductService {
     @Transactional
     public void updateProduct(ProductDto.ProductDetail productDetail){
         ProductEntity productEntity = productRepository.findByProductId(productDetail.getProductId()).orElseThrow(()->{
-            throw new CustomException("해당 id의 상품이 존재하지 않습니다.", ErrorCode.PRODUCT_NOT_FOUND);
+            throw new CustomException(ErrorCode.PRODUCT_NOT_FOUND);
         });
 
         productEntity.changProductInfo(productDetail);
@@ -50,7 +50,7 @@ public class ProductService {
     @Transactional
     public void deleteProduct(Long productId){
         ProductEntity productEntity = productRepository.findByProductId(productId).orElseThrow(()->{
-            throw new CustomException("해당 id의 상품이 존재하지 않습니다.",ErrorCode.PRODUCT_NOT_FOUND);
+            throw new CustomException(ErrorCode.PRODUCT_NOT_FOUND);
         });
 
         fileService.deleteFile(productEntity);
@@ -67,7 +67,7 @@ public class ProductService {
     @Transactional
     public ProductDto.ProductDetail getProductDetail(Long productId){
         ProductEntity productEntity = productRepository.findByProductId(productId).orElseThrow(()->{
-            throw new CustomException("해당 id의 상품이 존재하지 않습니다.",ErrorCode.PRODUCT_NOT_FOUND);
+            throw new CustomException(ErrorCode.PRODUCT_NOT_FOUND);
         });
 
         return ProductDto.ProductDetail.of(productEntity);

@@ -28,11 +28,11 @@ public class CartService {
     @Transactional
     public void addToCart(CartDto.Response.CartAddForm cartAddForm, UserEntity currentUser){
         UserEntity user = userRepository.findByEmail(currentUser.getEmail()).orElseThrow(()->{
-            throw new CustomException("해당 이메일의 유저가 존재하지 않습니다.", ErrorCode.USER_NOT_FOUND);
+            throw new CustomException(ErrorCode.USER_NOT_FOUND);
         });
 
         ProductEntity product = productRepository.findByProductId(cartAddForm.getProductId()).orElseThrow(()-> {
-            throw new CustomException("해당 id의 상품이 존재하지 않습니다.",ErrorCode.PRODUCT_NOT_FOUND);
+            throw new CustomException(ErrorCode.PRODUCT_NOT_FOUND);
         });
 
         Optional<CartEntity> cart = cartRepository.findByUserAndProduct(user,product);
@@ -54,7 +54,7 @@ public class CartService {
     @Transactional
     public List<CartDto.Response.CartDetailForm> getCartlist(UserEntity currentUser){
         UserEntity user = userRepository.findByEmail(currentUser.getEmail()).orElseThrow(()->{
-            throw new CustomException("해당 이메일의 유저가 존재하지 않습니다.",ErrorCode.USER_NOT_FOUND);
+            throw new CustomException(ErrorCode.USER_NOT_FOUND);
         });
 
         List<CartEntity> cart = cartRepository.findByUser(user);
@@ -68,7 +68,7 @@ public class CartService {
     @Transactional
     public void deleteFromCart(Long cartId){
         CartEntity cart = cartRepository.findById(cartId).orElseThrow(()->{
-            throw new CustomException("해당 id의 장바구니 아이템이 존재하지 않습니다.",ErrorCode.CART_NOT_FOUND);
+            throw new CustomException(ErrorCode.CART_NOT_FOUND);
         });
 
         cartRepository.delete(cart);
