@@ -6,6 +6,8 @@ import com.shopping.dessert.dto.ProductDto;
 import com.shopping.dessert.entity.OrderEntity;
 import com.shopping.dessert.entity.OrderProductEntity;
 import com.shopping.dessert.entity.UserEntity;
+import com.shopping.dessert.exceptionHandler.CustomException;
+import com.shopping.dessert.exceptionHandler.ErrorCode;
 import com.shopping.dessert.repository.OrderProductRepository;
 import com.shopping.dessert.repository.OrderRepository;
 import com.shopping.dessert.repository.UserRepository;
@@ -33,7 +35,7 @@ public class OrderService {
 
         // 회원 조회
         UserEntity user = userRepository.findById(userId).orElseThrow(() -> {
-            throw new IllegalStateException("해당 Id의 회원이 존재하지 않습니다.");
+            throw new CustomException("해당 id의 유저가 존재하지 않습니다.", ErrorCode.USER_NOT_FOUND);
         });
 
         // order 저장

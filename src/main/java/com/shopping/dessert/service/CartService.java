@@ -4,6 +4,8 @@ import com.shopping.dessert.dto.CartDto;
 import com.shopping.dessert.entity.CartEntity;
 import com.shopping.dessert.entity.ProductEntity;
 import com.shopping.dessert.entity.UserEntity;
+import com.shopping.dessert.exceptionHandler.CustomException;
+import com.shopping.dessert.exceptionHandler.ErrorCode;
 import com.shopping.dessert.repository.CartRepository;
 import com.shopping.dessert.repository.ProductRepository;
 import com.shopping.dessert.repository.UserRepository;
@@ -26,7 +28,7 @@ public class CartService {
     @Transactional
     public void addToCart(CartDto.Response.CartAddForm cartAddForm, UserEntity currentUser){
         UserEntity user = userRepository.findByEmail(currentUser.getEmail()).orElseThrow(()->{
-            throw new IllegalStateException("해당 이메일의 유저가 존재하지 않습니다.");
+            throw new CustomException("해당 이메일의 유저가 존재하지 않습니다.", ErrorCode.USER_NOT_FOUND);
         });
 
         ProductEntity product = productRepository.findByProductId(cartAddForm.getProductId()).orElseThrow(()-> {
@@ -52,7 +54,7 @@ public class CartService {
     @Transactional
     public List<CartDto.Response.CartDetailForm> getCartlist(UserEntity currentUser){
         UserEntity user = userRepository.findByEmail(currentUser.getEmail()).orElseThrow(()->{
-            throw new IllegalStateException("해당 이메일의 유저가 존재하지 않습니다.");
+            throw new CustomException("해당 이메일의 유저가 존재하지 않습니다.",ErrorCode.USER_NOT_FOUND);
         });
 
         List<CartEntity> cart = cartRepository.findByUser(user);

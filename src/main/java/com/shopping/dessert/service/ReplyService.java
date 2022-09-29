@@ -4,6 +4,8 @@ import com.shopping.dessert.dto.ReplyDto;
 import com.shopping.dessert.entity.PostEntity;
 import com.shopping.dessert.entity.ReplyEntity;
 import com.shopping.dessert.entity.UserEntity;
+import com.shopping.dessert.exceptionHandler.CustomException;
+import com.shopping.dessert.exceptionHandler.ErrorCode;
 import com.shopping.dessert.repository.PostRepository;
 import com.shopping.dessert.repository.ReplyRepository;
 import com.shopping.dessert.repository.UserRepository;
@@ -23,7 +25,7 @@ public class ReplyService {
     @Transactional
     public void addReply(ReplyDto replyAddForm, UserEntity currentUser){
         UserEntity user = userRepository.findByEmail(currentUser.getEmail()).orElseThrow(()->{
-            throw new IllegalStateException("해당 이메일의 유저가 존재하지 않습니다.");
+            throw new CustomException("해당 이메일의 유저가 존재하지 않습니다.", ErrorCode.USER_NOT_FOUND);
         });
 
         PostEntity post = postRepository.findById(replyAddForm.getPostId()).orElseThrow(()->{
@@ -43,7 +45,7 @@ public class ReplyService {
         });
 
         UserEntity user = userRepository.findById(userEntity.getUserId()).orElseThrow(()->{
-            throw new IllegalStateException("해당 id의 유저가 존재하지 않습니다.");
+            throw new CustomException("해당 id의 유저가 존재하지 않습니다.",ErrorCode.USER_NOT_FOUND);
         });
 
         if (!reply.getUser().getEmail().equals(user.getEmail())){
