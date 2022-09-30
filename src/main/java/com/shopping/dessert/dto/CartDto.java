@@ -1,8 +1,6 @@
 package com.shopping.dessert.dto;
 
 import com.shopping.dessert.entity.CartEntity;
-import com.shopping.dessert.entity.ProductEntity;
-import com.shopping.dessert.entity.UserEntity;
 import lombok.Builder;
 import lombok.Data;
 

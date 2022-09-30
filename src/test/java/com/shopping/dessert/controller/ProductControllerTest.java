@@ -76,7 +76,7 @@ class ProductControllerTest {
 
 
         doReturn(Optional.empty()).when(productService).getProductByName(any(String.class));
-        doReturn(1L).when(productService).addProduct(any(ProductDto.Request.ProductAddForm.class));
+        doReturn(1L).when(productService).addProduct(any(ProductDto.ProductAddForm.class));
 
         mockMvc.perform(post("/products/add")
                 .contentType(MediaType.APPLICATION_FORM_URLENCODED)

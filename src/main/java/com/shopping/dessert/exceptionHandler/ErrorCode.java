@@ -2,7 +2,6 @@ package com.shopping.dessert.exceptionHandler;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.Setter;
 
 @AllArgsConstructor
 @Getter

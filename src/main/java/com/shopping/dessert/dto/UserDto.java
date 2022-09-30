@@ -2,7 +2,10 @@ package com.shopping.dessert.dto;
 
 import com.shopping.dessert.entity.UserEntity;
 import com.shopping.dessert.entity.value.UserRole;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;

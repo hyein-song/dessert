@@ -1,10 +1,9 @@
 package com.shopping.dessert.auth;
 
 import com.shopping.dessert.entity.UserEntity;
-import lombok.*;
+import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-
 
 import java.util.ArrayList;
 import java.util.Collection;

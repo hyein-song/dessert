@@ -1,7 +1,6 @@
 package com.shopping.dessert.entity;
 
 import com.shopping.dessert.dto.ProductDto;
-import com.sun.xml.bind.v2.TODO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;

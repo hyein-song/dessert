@@ -1,16 +1,16 @@
 package com.shopping.dessert.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.shopping.dessert.dto.UserDto;
 import com.shopping.dessert.entity.value.UserRole;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
-import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
-import java.time.LocalDateTime;
 import java.util.LinkedHashSet;
 import java.util.Set;
 

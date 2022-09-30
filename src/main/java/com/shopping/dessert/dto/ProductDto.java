@@ -1,7 +1,10 @@
 package com.shopping.dessert.dto;
 
 import com.shopping.dessert.entity.ProductEntity;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.Range;
 import org.springframework.web.multipart.MultipartFile;
 
