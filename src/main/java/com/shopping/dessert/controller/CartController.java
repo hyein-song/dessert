@@ -27,7 +27,6 @@ public class CartController {
     @PreAuthorize("isAuthenticated()")
     @PostMapping("/add")
     public String addToCart(@Valid CartDto.Response.CartAddForm cartAddForm, BindingResult result, @CurrentUser UserEntity currentUser, Model model){
-//        System.out.println(cartAddForm);
         if (currentUser == null){
             return "redirect:/account/login";
         }
