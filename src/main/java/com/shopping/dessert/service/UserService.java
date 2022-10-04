@@ -40,9 +40,7 @@ public class UserService {
 
     @Transactional
     public void updateMyInfo(UserDto.Request.MyInfoUpdateForm updateForm){
-        UserEntity updatedUser = userRepository.findByEmail(updateForm.getEmail()).orElseThrow(()->{
-            throw new CustomException(ErrorCode.USER_NOT_FOUND);
-        });
+        UserEntity updatedUser =  findUserByEmail(updateForm.getEmail());
 
         String originPW = updateForm.getPassword();
         updateForm.setPassword(passwordEncoder.encode(originPW));
@@ -57,9 +55,8 @@ public class UserService {
 
     @Transactional
     public void delete(UserDto.Request.UserDeleteForm userDeleteForm){
-        UserEntity user = userRepository.findByEmail(userDeleteForm.getEmail()).orElseThrow(()->{
-            throw new CustomException(ErrorCode.USER_NOT_FOUND);
-        });
+
+        UserEntity user = findUserByEmail(userDeleteForm.getEmail());
 
         String originPW = userDeleteForm.getPassword();
         if (passwordEncoder.matches(originPW, userDeleteForm.getPassword())){
@@ -68,6 +65,19 @@ public class UserService {
 
         userRepository.delete(user);
 
+    }
+
+    @Transactional
+    public void login(UserDto.Request.LoginForm loginForm){
+
+    }
+
+
+    @Transactional
+    public UserEntity findUserByEmail(String userEmail){
+        return userRepository.findByEmail(userEmail).orElseThrow(()->{
+            throw new CustomException(ErrorCode.USER_NOT_FOUND);
+        });
     }
 
 }

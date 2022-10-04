@@ -3,7 +3,7 @@ package com.shopping.dessert.auth;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.shopping.dessert.dto.LoginRequestDto;
+import com.shopping.dessert.dto.UserDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -30,12 +30,11 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
 
         ObjectMapper objectMapper = new ObjectMapper();
-        LoginRequestDto loginRequestDto = null;
         try {
             // 1. username, password 받음
-            loginRequestDto = objectMapper.readValue(request.getInputStream(), LoginRequestDto.class);
+            UserDto.Request.LoginForm login = objectMapper.readValue(request.getInputStream(), UserDto.Request.LoginForm.class);
             UsernamePasswordAuthenticationToken authenticationToken =
-                    new UsernamePasswordAuthenticationToken(loginRequestDto.getUserId(), loginRequestDto.getPassword());
+                    new UsernamePasswordAuthenticationToken(login.getEmail(), login.getPassword());
 
 
             //2. 정상적인 로그인 시도 여부 검증

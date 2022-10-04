@@ -17,7 +17,6 @@
                             <!--/*@thymesVar id="registerForm" type="com.shopping.dessert.dto.UserDto.Request.RegisterForm"*/-->
                             <!--/*@thymesVar id="name" type="String"*/-->
                             <form th:action="@{/account/register}" th:object="${registerForm}" method="post">
-                                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
                                 <div class="col-md-6 form-group">
                                     <label th:for="name">이름</label>
                                     <input id="name" name="name" th:feild="*{name}" th:value="*{name}"  class="form-control" type="text" placeholder="이름" />
