@@ -46,18 +46,5 @@ public class AccountController {
         return "user/login";
     }
 
-    @PostMapping("/loginProc")
-    public String loginProc(@Valid UserDto.Request.LoginForm loginForm, BindingResult result, Model model){
-
-        if (result.hasErrors()){
-            model.addAttribute("loginForm",loginForm);
-            return "user/login";
-        }
-
-        userService.login(loginForm);
-
-        return "home";
-    }
-
 
 }
