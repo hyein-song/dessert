@@ -1,8 +1,9 @@
-package com.shopping.dessert.auth;
+package com.shopping.dessert.jwt;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.shopping.dessert.auth.PrincipalDetails;
 import com.shopping.dessert.dto.UserDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

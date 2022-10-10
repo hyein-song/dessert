@@ -1,7 +1,8 @@
-package com.shopping.dessert.auth;
+package com.shopping.dessert.jwt;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
+import com.shopping.dessert.auth.PrincipalDetails;
 import com.shopping.dessert.entity.UserEntity;
 import com.shopping.dessert.exceptionHandler.CustomException;
 import com.shopping.dessert.exceptionHandler.ErrorCode;

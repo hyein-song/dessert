@@ -1,7 +1,7 @@
 package com.shopping.dessert.config;
 
-import com.shopping.dessert.auth.JwtAuthenticationFilter;
-import com.shopping.dessert.auth.JwtAuthorizationFilter;
+import com.shopping.dessert.jwt.JwtAuthenticationFilter;
+import com.shopping.dessert.jwt.JwtAuthorizationFilter;
 import com.shopping.dessert.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
