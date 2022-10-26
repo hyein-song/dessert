@@ -21,9 +21,9 @@
                 <div id="product-carousel" class="carousel slide" data-ride="carousel">
                     <div class="carousel-inner border">
                         <!--                        사진 개수만큼 반복-->
-                        <div class="carousel-item active">
-                            <img class="w-100 h-100" th:src="@{'/images/'+ ${productDetail.fileDtoList.get(0).savedName} }" alt="Image">
-                        </div>
+<!--                        <div class="carousel-item active" th:if="">-->
+<!--                            <img class="w-100 h-100" th:src="@{'/images/'+ ${productDetail.fileDtoList.get(0).savedName} }" alt="Image">-->
+<!--                        </div>-->
                         <div th:each="file : ${productDetail.fileDtoList}" class="carousel-item">
                             <img class="w-100 h-100" th:src="@{'/images/' + ${file.savedName}}" alt="Image">
                         </div>
